@@ -1,0 +1,13 @@
+<!doctype html>
+
+<title>Welcome to Name</title>
+
+{% block main%}
+                    <h1>Weclome! Login or Register</h1>
+<form action="{{ url_for('home') }}" method="GET">
+    <fieldset>
+                <button class="btn btn-default" type="submit">Log In</button>
+                <button class="btn btn-default" type="submit">Register</button>
+    </fieldset>
+</form>
+{% endblock %}
