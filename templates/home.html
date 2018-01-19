@@ -1,14 +1,12 @@
-<!DOCTYPE html>
+{% extends "layout.html" %}
 
 <title>Welcome to Name</title>
 
 {% block main%}
                     <h1>Welcome! Login or Register</h1>
-<form action="{{/login.html}}" method="GET">
     <fieldset>
-                <button class="btn btn-default" type="submit">Log in</button>
-
-                <button class="btn btn-default" type="submit">Register</button>
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            <li><a href="{{ url_for('register') }}">Register</a></li>
     </fieldset>
 </form>
 {% endblock %}
