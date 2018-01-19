@@ -4,7 +4,7 @@
 
 {% block main%}
                     <h1>Welcome! Login or Register</h1>
-<form action="{{login.html}}" method="GET">
+<form action="{{ url_for('home') }}" method="GET">
     <fieldset>
                 <button class="btn btn-default" type="submit">Log in</button>
 
