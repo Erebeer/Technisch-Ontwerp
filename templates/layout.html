@@ -9,14 +9,14 @@
         <meta content="initial-scale=1, width=device-width" name="viewport"/>
 
         <!-- documentation at http://getbootstrap.com/, alternative themes at https://www.bootstrapcdn.com/bootswatch/ -->
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0-beta.3/cyborg/bootstrap.min.css" rel="stylesheet"/>
 
         <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet"/>
 
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-        <title>C$50 Finance: {% block title %}{% endblock %}</title>
+        <title>Trivia {% block title %}{% endblock %}</title>
 
     </head>
 
@@ -33,7 +33,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="{{ url_for('login') }}"><span class="blue">C</span><span class="red">$</span><span class="yellow">5</span><span class="green">0</span> <span class="red">Finance</span></a>
+                        <a class="navbar-brand" href="{{ url_for('login') }}"><span class="blue">T</span><span class="red">R</span><span class="yellow">IV</span><span class="green">I</span> <span class="red">A</span></a>
                     </div>
                     <div class="collapse navbar-collapse" id="navbar">
                         {% if session.user_id %}
