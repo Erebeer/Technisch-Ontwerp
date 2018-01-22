@@ -82,6 +82,26 @@ def register():
     else:
         return render_template("register.html")
 
+@app.route("/index", methods=["GET", "POST"])
+def index():
+    return render_template("index.html")
+
+@app.route("/leaderboards", methods=["GET", "POST"])
+def leaderboards():
+    return render_template("leaderboards.html")
+
+@app.route("/play", methods=["GET", "POST"])
+def play():
+    return render_template("game.html")
+
+@app.route("/logout", methods=["GET", "POST"])
+def logout():
+    # Clear the session, forget user_id
+    session.clear()
+
+    # Go back to the homepage
+    return render_template("home.html")
+
 
 if __name__ == "__main__":
     app.run

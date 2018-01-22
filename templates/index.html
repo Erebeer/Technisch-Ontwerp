@@ -5,4 +5,17 @@
 
 <h1>DIT IS DE INDEX</h1>
 
+     <fieldset>
+         <h2>Choose Difficulty</h2>
+            <li><a href="{{ url_for('index') }}">Novice</a></li>
+            <li><a href="{{ url_for('index') }}">Medium</a></li>
+            <li><a href="{{ url_for('index') }}">Hard</a></li>
+        <h2>Choose Time</h2>
+            <li><a href="{{ url_for('index') }}">1 Minute</a></li>
+            <li><a href="{{ url_for('index') }}">3 Minutes</a></li>
+            <li><a href="{{ url_for('index') }}">5 Minutes</a></li>
+        <h2>Play!</h2>
+            <li><a href="{{ url_for('index') }}">Play</a></li>
+        </fieldset>
+
 {% endblock %}
