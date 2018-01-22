@@ -24,12 +24,15 @@ def generate():
     # Create lists of questions and correct answers
     all_questions = []
     correct_answers = []
+    number = [x for x in range(10)]
     for x in temp:
         all_questions.append(x['question'])
     for x in temp:
         correct_answers.append(x['correct_answer'])
 
     # Combines both lists into a dict (key = question, value = correct answer)
-    questionset = dict(zip(all_questions, correct_answers))
+    temp1 = list(zip(all_questions, correct_answers))
+    questionset = dict(list(zip(number, temp1)))
+
 
     return(questionset)
