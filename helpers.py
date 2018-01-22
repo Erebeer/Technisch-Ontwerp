@@ -37,13 +37,21 @@ def generate():
 
     return(questionset)
 
-    def countdown(minutes):
-       while minutes > 0:
-            minutes = minutes - 1
-            time.sleep(1)
-            if minutes == 0:
-                print("Time is up!")
+def timerset():
+while True:
+    seconds = input(">> ")
+    try:
+        stop_when = abs(int(seconds))
+    except Keyboardinterrupt:
+        break
+    except:
+        print("Not a number")
 
-minutes = int(input() * 60)
-countdown(minutes)
+    while stop_when > 0:
+        m, s = divmod(stop_when, 60)
+        h, m = divmod(m, 60)
+        time_left = str(h).zfill(2) + ":" + str(m).zfill(2) + ":" + str(s).zfill(2)
+        print(time_left + "\r", end = "")
+        time.sleep(1)
+        stop_when -= 1
 
