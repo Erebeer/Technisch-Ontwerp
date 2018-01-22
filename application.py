@@ -88,7 +88,8 @@ def index():
 
 @app.route("/leaderboards", methods=["GET", "POST"])
 def leaderboards():
-    return render_template("leaderboards.html")
+    leaderboard = db.execute("SELECT * from users WHERE id= :id", id=1)
+    return render_template("leaderboards.html", leaderboard = leaderboard, username = "Pietje")
 
 @app.route("/play", methods=["GET", "POST"])
 def play():
@@ -101,6 +102,8 @@ def logout():
 
     # Go back to the homepage
     return render_template("home.html")
+
+
 
 
 if __name__ == "__main__":

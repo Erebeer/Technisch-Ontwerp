@@ -3,5 +3,18 @@
 
 
 {% block main%}
-<h1> DIT ZIJN DE LEADERBOARDS</h1>
+<h1>LEADERBOARDS</h1>
+    <table class="table table-striped" style="width:100%">
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Games Played</th>
+        <th>Total Score</th>
+        <th>Avarage Score</th>
+      </tr>
+    {% for x in leaderboard %}
+      <tr>
+        <td>{{ x.ID }}</td>
+      </tr>
+{% endfor %}
 {% endblock %}
