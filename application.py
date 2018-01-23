@@ -94,32 +94,34 @@ def leaderboards():
 
 @app.route("/play", methods=["GET", "POST"])
 def play():
-    questions = helpers.generate()
+    if request.method == "POST":
+        questions = helpers.generate()
 
-# Set score
-    score = 0
+        # Set score
+        score = 0
 
 
-    for x in questions:
-        correct_answer = questions[x][1].lower()
-        print(correct_answer)
-        print(questions[x][0])
-        print("Your Answer: ")
-        answer = input()
+        for x in questions:
+            correct_answer = questions[x][1].lower()
+            print(correct_answer)
+            print(questions[x][0])
+            print("Your Answer: ")
+            answer = input()
 
-        if answer == correct_answer:
-            print("Correct!")
-            score = score + 100
-        elif answer == "pass":
-            print("passed, you'll lose 50 points")
-            score = score - 50
-        else:
-            score = score - 100
-            print("Wrong, you'll lose 100 points")
-        print("current score: ",score)
+            if answer == correct_answer:
+                print("Correct!")
+                score = score + 100
+            elif answer == "pass":
+                print("passed, you'll lose 50 points")
+                score = score - 50
+            else:
+                score = score - 100
+                print("Wrong, you'll lose 100 points")
+            print("current score: ",score)
 
-    print("Total Score: ", score)
-    return render_template("game.html")
+        print("Total Score: ", score)
+    else:
+        return render_template("game.html")
 
 @app.route("/logout", methods=["GET", "POST"])
 @login_required
