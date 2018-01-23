@@ -6,6 +6,7 @@ from tempfile import mkdtemp
 from helpers import *
 
 app = Flask(__name__)
+app.config['SECRET_KEY']="Your secret key"
 
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///trivia.db")
@@ -77,7 +78,7 @@ def register():
         session["user_id"] = result
 
         # Goes to homepage
-        return redirect(url_for("home"))
+        return redirect(url_for("index"))
 
     else:
         return render_template("register.html")
@@ -96,12 +97,13 @@ def play():
     return render_template("game.html")
 
 @app.route("/logout", methods=["GET", "POST"])
+@login_required
 def logout():
     # Clear the session, forget user_id
     session.clear()
 
     # Go back to the homepage
-    return render_template("home.html")
+    return render_template("logout.html")
 
 
 
