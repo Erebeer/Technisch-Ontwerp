@@ -43,23 +43,28 @@ li a:hover {
 {
     color: #2e944b;
 }
+.logout
+{
+    background-color: #088A29;
+}
 
 </style>
+<title>TRIVIA</title>
 </head>
 <body>
 
 <ul>
-    <li><a class="navbar-brand" href="{{ url_for('home') }}"><span class="red">T</span><span class="yellow">R</span><span class="red">IV</span><span class="yellow">I</span> <span class="red">A</span></a>
-</li>
-    <li><a class = "active" href="/home"></a></li>
+    <li><a href="/index"><img src="https://upload.wikimedia.org/wikipedia/en/archive/2/27/20100328194043%21Trivia.png" width="70" height="14"></img></a></li>
     <li><a class = "active" href="/login">Login</a></li>
     <li><a href="/register">Register</a></li>
     <li><a href="/leaderboards">Leaderboards</a></li>
     <li><a href="/index">Index</a></li>
-    <li><a href="/logout">Logout</a></li>
+    <li style="float:right"><a class= "logout" href="/logout">Logout</a></li>
+    <li><a href="/contact">Contact</a></li>
+    <li><a href="/about">About</a></li>
 </ul>
 
-<p>DIT IS HOMEPAGINA</p>
+<h1>DIT IS HOMEPAGINA</h1>
 
 </body>
 </html>
