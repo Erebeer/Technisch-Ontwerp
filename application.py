@@ -94,11 +94,13 @@ def leaderboards():
 
 @app.route("/play", methods=["GET", "POST"])
 def play():
+    return render_template("question1.html")
+
+def play1():
     questions = helpers.generate()
 
     # Set score
     score = 0
-
 
     for x in questions:
         correct_answer = questions[x][1].lower()
