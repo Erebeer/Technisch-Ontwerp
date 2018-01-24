@@ -16,7 +16,7 @@ def error(message, topmessage="ERROR"):
 
 def generate():
     # Open the API
-    api =  "https://opentdb.com/api.php?amount=5"
+    api =  "https://opentdb.com/api.php?amount=10"
     webpage = list(urllib.request.urlopen(api))
 
     # Generates the questionset
@@ -36,6 +36,47 @@ def generate():
     questionset = dict(list(zip(number, temp1)))
 
     return(questionset)
+
+def question1():
+    questions = generate()
+    question1 = questions[0][0]
+    return question1
+def question2():
+    questions = generate()
+    question2 = questions[1][0]
+    return question2
+def question3():
+    questions = generate()
+    question3 = questions[2][0]
+    return question3
+def question4():
+    questions = generate()
+    question4 = questions[3][0]
+    return question4
+def question5():
+    questions = generate()
+    question5 = questions[4][0]
+    return question5
+def question6():
+    questions = generate()
+    question6 = questions[5][0]
+    return question6
+def question7():
+    questions = generate()
+    question7 = questions[6][0]
+    return question7
+def question8():
+    questions = generate()
+    question8 = questions[7][0]
+    return question8
+def question9():
+    questions = generate()
+    question9 = questions[8][0]
+    return question9
+def question10():
+    questions = generate()
+    question10 = questions[9][0]
+    return question10
 
 def timerset():
     while True:

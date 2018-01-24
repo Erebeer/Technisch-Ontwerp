@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block main%}
-<h1>{{ questions }}</h1>
+<h1>{{ helpers.question1 }}</h1>
     <form action="{{ url_for('play') }}" method="post">
         <fieldset>
             <div class="form-group">

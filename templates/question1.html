@@ -1,0 +1,11 @@
+{% extends "layout.html"%}
+
+{% block title %}
+    Question 1
+{% endblock %}
+
+{% block main %}
+<h1> {{ question }}</h1>
+ <li><a href="{{ url_for('home') }}">Next</a></li>
+{% endblock %}
+
