@@ -92,16 +92,197 @@ def leaderboards():
     leaderboard = db.execute("SELECT * from users WHERE id= :id", id=1)
     return render_template("leaderboards.html", leaderboard = leaderboard, username = "Pietje")
 
-@app.route("/question1", methods=["POST"])
-def question1():
-    return render_template("home.html")
+@app.route("/correct", methods=["GET", "POST"])
+def correct():
+    return render_template("correct.html")
 
-@app.route("/play", methods=["GET", "POST"])
+@app.route("/wrong", methods=["GET", "POST"])
+def wrong():
+    return render_template("wrong.html")
 
-def question1():
-    question = helpers.question1()
-    return render_template("question1.html", question=question)
+@app.route("/setup", methods=["GET", "POST"])
+def setup():
+    db.execute("CREATE TABLE game ( number INTEGER, question TEXT, answer TEXT)")
+    for x in range(1, 11):
+        question_and_answer = helpers.question1()
+        question = question_and_answer[0]
+        answer = question_and_answer[1]
+        number = x
+        db.execute("INSERT INTO game (number, question, answer) VALUES(:number, :question, :answer)", number=number, question=question, answer=answer )
+    return render_template("setup.html")
 
+@app.route("/question01", methods=["GET", "POST"])
+def question01():
+    score = 0
+    if request.method == "POST":
+        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=1)
+        question = questiontemp[0]['question']
+        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=1)
+        answer = answertemp[0]['answer']
+        givenanswer = str(request.form.to_dict('answer')['answer'])
+        if givenanswer == answer:
+            score = score + 100
+            return redirect(url_for("correct"))
+        if givenanswer != answer:
+            score = score - 50
+            return render_template("wrong.html", answer=answer)
+
+
+    else:
+        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=1)
+        question = questiontemp[0]['question']
+        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=1)
+        answer = answertemp[0]['answer']
+        return render_template("question01.html", question=question, answer = answer)
+
+@app.route("/question02", methods=["GET", "POST"])
+def question02():
+    score = 0
+    question_and_answer = helpers.question1()
+    question = question_and_answer[0]
+    answer = question_and_answer[1]
+    givenanswer = request.form.get("answer")
+    if givenanswer == answer:
+        score = score + 100
+    elif givenanswer == "pass":
+        score = score - 50
+    elif givenanswer != answer:
+        score = score - 100
+
+    return render_template("question02.html", question=question, answer = answer)
+
+@app.route("/question03", methods=["GET", "POST"])
+def question03():
+    score = 0
+    question_and_answer = helpers.question1()
+    question = question_and_answer[0]
+    answer = question_and_answer[1]
+    givenanswer = request.form.get("answer")
+    if givenanswer == answer:
+        score = score + 100
+    elif givenanswer == "pass":
+        score = score - 50
+    elif givenanswer != answer:
+        score = score - 100
+
+    return render_template("question03.html", question=question, answer = answer)
+
+@app.route("/question04", methods=["GET", "POST"])
+def question04():
+    score = 0
+    question_and_answer = helpers.question1()
+    question = question_and_answer[0]
+    answer = question_and_answer[1]
+    givenanswer = request.form.get("answer")
+    if givenanswer == answer:
+        score = score + 100
+    elif givenanswer == "pass":
+        score = score - 50
+    elif givenanswer != answer:
+        score = score - 100
+
+    return render_template("question04.html", question=question, answer = answer)
+
+@app.route("/question05", methods=["GET", "POST"])
+def question05():
+    score = 0
+    question_and_answer = helpers.question1()
+    question = question_and_answer[0]
+    answer = question_and_answer[1]
+    givenanswer = request.form.get("answer")
+    if givenanswer == answer:
+        score = score + 100
+    elif givenanswer == "pass":
+        score = score - 50
+    elif givenanswer != answer:
+        score = score - 100
+
+    return render_template("question05.html", question=question, answer = answer)
+
+@app.route("/question06", methods=["GET", "POST"])
+def question06():
+    score = 0
+    question_and_answer = helpers.question1()
+    question = question_and_answer[0]
+    answer = question_and_answer[1]
+    givenanswer = request.form.get("answer")
+    if givenanswer == answer:
+        score = score + 100
+    elif givenanswer == "pass":
+        score = score - 50
+    elif givenanswer != answer:
+        score = score - 100
+
+    return render_template("question06.html", question=question, answer = answer)
+
+@app.route("/question07", methods=["GET", "POST"])
+def question07():
+    score = 0
+    question_and_answer = helpers.question1()
+    question = question_and_answer[0]
+    answer = question_and_answer[1]
+    givenanswer = request.form.get("answer")
+    if givenanswer == answer:
+        score = score + 100
+    elif givenanswer == "pass":
+        score = score - 50
+    elif givenanswer != answer:
+        score = score - 100
+
+    return render_template("question07.html", question=question, answer = answer)
+
+@app.route("/question08", methods=["GET", "POST"])
+def question08():
+    score = 0
+    question_and_answer = helpers.question1()
+    question = question_and_answer[0]
+    answer = question_and_answer[1]
+    givenanswer = request.form.get("answer")
+    if givenanswer == answer:
+        score = score + 100
+    elif givenanswer == "pass":
+        score = score - 50
+    elif givenanswer != answer:
+        score = score - 100
+
+    return render_template("question08.html", question=question, answer = answer)
+
+@app.route("/question09", methods=["GET", "POST"])
+def question09():
+    score = 0
+    question_and_answer = helpers.question1()
+    question = question_and_answer[0]
+    answer = question_and_answer[1]
+    givenanswer = request.form.get("answer")
+    if givenanswer == answer:
+        score = score + 100
+    elif givenanswer == "pass":
+        score = score - 50
+    elif givenanswer != answer:
+        score = score - 100
+
+    return render_template("question09.html", question=question, answer = answer)
+
+@app.route("/question10", methods=["GET", "POST"])
+def question10():
+    score = 0
+    question_and_answer = helpers.question1()
+    question = question_and_answer[0]
+    answer = question_and_answer[1]
+    givenanswer = request.form.get("answer")
+    if givenanswer == answer:
+        score = score + 100
+    elif givenanswer == "pass":
+        score = score - 50
+    elif givenanswer != answer:
+        score = score - 100
+
+    return render_template("question10.html", question=question, answer = answer)
+
+@app.route("/results", methods=["GET"])
+def results():
+    helpers.deleteall()
+    return render_template("results.html")
 
 def play():
     # Set score

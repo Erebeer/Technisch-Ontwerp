@@ -4,6 +4,9 @@ import json
 from flask import redirect, render_template, request, session
 from functools import wraps
 import time
+from cs50 import SQL
+
+db = SQL("sqlite:///trivia.db")
 
 def error(message, topmessage="ERROR"):
     "Returns an error message"
@@ -16,7 +19,7 @@ def error(message, topmessage="ERROR"):
 
 def generate():
     # Open the API
-    api =  "https://opentdb.com/api.php?amount=10"
+    api =  "https://opentdb.com/api.php?amount=11"
     webpage = list(urllib.request.urlopen(api))
 
     # Generates the questionset
@@ -25,7 +28,7 @@ def generate():
     # Create lists of questions and correct answers
     all_questions = []
     correct_answers = []
-    number = [x for x in range(10)]
+    number = [x for x in range(11)]
     for x in temp:
         all_questions.append(x['question'])
     for x in temp:
@@ -39,8 +42,9 @@ def generate():
 
 def question1():
     questions = generate()
-    question1 = questions[0][0]
-    return question1
+    question = questions[0][0]
+    answer = questions[0][1]
+    return ([question, answer])
 def question2():
     questions = generate()
     question2 = questions[1][0]
@@ -95,6 +99,9 @@ def timerset():
             print(time_left + "\r", end = "")
             time.sleep(1)
             stop_when -= 1
+
+def deleteall():
+    db.execute("DROP TABLE game")
 
 def login_required(f):
     """

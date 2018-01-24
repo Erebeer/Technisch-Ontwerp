@@ -1,0 +1,16 @@
+{% extends "layout.html"%}
+
+{% block title %}
+    Question 1
+{% endblock %}
+
+{% block main %}
+<h1>Question: {{ question }}</h1>
+<h1>Answer: {{ answer }}</h1>
+<fieldset>
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="answer" placeholder="Answer" type="text"/>
+            </div>
+ <li><a href="{{ url_for('question06') }}">Next</a></li>
+{% endblock %}
+
