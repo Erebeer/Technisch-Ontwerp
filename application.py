@@ -3,7 +3,7 @@ from flask import Flask, flash, redirect, render_template, request, session, url
 from flask_session import Session
 from passlib.apps import custom_app_context as pwd_context
 from tempfile import mkdtemp
-from helpers import *
+import helpers
 
 app = Flask(__name__)
 app.config['SECRET_KEY']="Your secret key"
@@ -74,7 +74,7 @@ def register():
         if not result:
            return error("Just Error")
 
-        # Keeps the registered user logged in
+        # Keeps the registered user logged in()
         session["user_id"] = result
 
         # Goes to homepage
@@ -96,7 +96,7 @@ def leaderboards():
 def play():
     questions = helpers.generate()
 
-# Set score
+    # Set score
     score = 0
 
 
@@ -104,8 +104,8 @@ def play():
         correct_answer = questions[x][1].lower()
         print(correct_answer)
         print(questions[x][0])
-        print("Your Answer: ")
-        answer = input()
+        print("Your Answer: ", end="")
+        answer = request.form.get("answer")
 
         if answer == correct_answer:
             print("Correct!")
@@ -121,15 +121,14 @@ def play():
     print("Total Score: ", score)
     return render_template("game.html")
 
+
 @app.route("/logout", methods=["GET", "POST"])
-@login_required
 def logout():
     # Clear the session, forget user_id
     session.clear()
 
     # Go back to the homepage
     return render_template("logout.html")
-
 
 if __name__ == "__main__":
     app.run
