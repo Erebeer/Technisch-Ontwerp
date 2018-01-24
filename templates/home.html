@@ -3,14 +3,19 @@
 <title>Welcome to The most awesome Trivia Game!</title>
 
 {% block main%}
-                    <h1>Welcome! Login or Register</h1>
+                    <h1>Prototype Eric Louwers & Lars Bremmers</h1>
+                    <h2>Student IDs: 11853751 & 11861738</h2>
+
+
+                    <h2>Welcome! Login or Register</h2>
 
     <fieldset>
             <li><a href="{{ url_for('login') }}">Login</a></li>
             <li><a href="{{ url_for('register') }}">Register</a></li>
             <li><a href="{{ url_for('index') }}">Index</a></li>
             <li><a href="{{ url_for('leaderboards') }}">Leaderboards</a></li>
-            <li><a href="{{ url_for('leaderboards') }}">Play</a></li>
+            <li><a href="{{ url_for('index') }}">Play</a></li>
+            <li><a href="{{ url_for('testlayout') }}">test layout</a></li>
     </fieldset>
 </form>
 {% endblock %}

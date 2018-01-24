@@ -7,13 +7,18 @@
 
      <fieldset>
          <h2>Choose Difficulty</h2>
-            <li><a href="{{ url_for('index') }}">Novice</a></li>
-            <li><a href="{{ url_for('index') }}">Medium</a></li>
-            <li><a href="{{ url_for('index') }}">Hard</a></li>
-        <h2>Choose Time</h2>
-            <li><a href="{{ url_for('index') }}">1 Minute</a></li>
-            <li><a href="{{ url_for('index') }}">3 Minutes</a></li>
-            <li><a href="{{ url_for('index') }}">5 Minutes</a></li>
+
+     <form action="{{ url_for('question1') }}" method="post">
+        <fieldset>
+            <div class="form-group">
+                <select>
+                    <option value="novice">Novice</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
+        </fieldset>
+
         <h2>Play!</h2>
             <li><a href="{{ url_for('question01') }}">Question 1</a></li>
         </fieldset>
