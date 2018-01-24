@@ -93,8 +93,8 @@ def leaderboards():
     return render_template("leaderboards.html", leaderboard = leaderboard, username = "Pietje")
 
 @app.route("/question1", methods=["POST"])
-def question1():
-    return render_template("home.html")
+def question01():
+    return render_template("question1.html")
 
 @app.route("/play", methods=["GET", "POST"])
 
