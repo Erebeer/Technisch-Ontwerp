@@ -94,9 +94,6 @@ def leaderboards():
 
 @app.route("/play", methods=["GET", "POST"])
 def play():
-    return render_template("question1.html")
-
-def play1():
     questions = helpers.generate()
 
     # Set score
