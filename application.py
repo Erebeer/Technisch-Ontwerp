@@ -92,6 +92,10 @@ def leaderboards():
     leaderboard = db.execute("SELECT * from users WHERE id= :id", id=1)
     return render_template("leaderboards.html", leaderboard = leaderboard, username = "Pietje")
 
+@app.route("/question1", methods=["POST"])
+def question1():
+    return render_template("home.html")
+
 @app.route("/play", methods=["GET", "POST"])
 
 def question1():
@@ -102,7 +106,6 @@ def question1():
 def play():
     # Set score
     score = 0
-
 
     for x in questions:
         correct_answer = questions[x][1].lower()
