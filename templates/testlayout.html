@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #848;
+}
+
+/* colors for navbar */
+.navbar-default .navbar-brand .blue
+{
+    color: #537fbe;
+}
+.navbar-default .navbar-brand .red
+{
+    color: #ea433b;
+}
+.navbar-default .navbar-brand .yellow
+{
+    color: #f5b82e;
+}
+.navbar-default .navbar-brand .green
+{
+    color: #2e944b;
+}
+
+</style>
+</head>
+<body>
+
+<ul>
+    <li><a class="navbar-brand" href="{{ url_for('home') }}"><span class="red">T</span><span class="yellow">R</span><span class="red">IV</span><span class="yellow">I</span> <span class="red">A</span></a>
+</li>
+    <li><a class = "active" href="/home"></a></li>
+    <li><a class = "active" href="/login">Login</a></li>
+    <li><a href="/register">Register</a></li>
+    <li><a href="/leaderboards">Leaderboards</a></li>
+    <li><a href="/index">Index</a></li>
+    <li><a href="/logout">Logout</a></li>
+</ul>
+
+<p>DIT IS HOMEPAGINA</p>
+
+</body>
+</html>

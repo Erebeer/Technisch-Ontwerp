@@ -137,5 +137,10 @@ def logout():
     # Go back to the homepage
     return render_template("logout.html")
 
+@app.route("/testlayout", methods=["GET", "POST"])
+def testlayout():
+    return render_template("testlayout.html")
+
+
 if __name__ == "__main__":
     app.run
