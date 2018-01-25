@@ -6,15 +6,17 @@
 <h1>LEADERBOARDS</h1>
     <table class="table table-striped" style="width:100%">
       <tr>
-        <th>ID</th>
         <th>Username</th>
         <th>Games Played</th>
         <th>Total Score</th>
         <th>Avarage Score</th>
       </tr>
-    {% for x in leaderboard %}
+    {% for row in leaderboard %}
       <tr>
-        <td>{{ x.ID }}</td>
+        <td>{{ row.username }}</td>
+        <td>{{ row.total_games }}</td>
+        <td>{{ row.total_score }}</td>
+        <td>{{ row.avarage_score }}</td>
       </tr>
 {% endfor %}
 {% endblock %}

@@ -77,6 +77,11 @@ def register():
         # Keeps the registered user logged in()
         session["user_id"] = result
 
+        # Adds username to the leaderboards
+        usernametemp = db.execute("SELECT username FROM users WHERE id= :id", id=session["user_id"])
+        username = usernametemp[0]["username"]
+        db.execute("INSERT INTO leaderboards (username, total_games, total_score, avarage_score) VALUES (:username, :total_games, :total_score, :avarage_score)", username=username, total_games=0, total_score=0, avarage_score=0)
+
         # Goes to homepage
         return redirect(url_for("index"))
 
@@ -91,8 +96,8 @@ def index():
 @app.route("/leaderboards", methods=["GET", "POST"])
 @helpers.login_required
 def leaderboards():
-    leaderboard = db.execute("SELECT * from users WHERE id= :id", id=1)
-    return render_template("leaderboards.html", leaderboard = leaderboard, username = "Pietje")
+    leaderboards = db.execute("SELECT * from leaderboards")
+    return render_template("leaderboards.html", leaderboard = leaderboards)
 
 @app.route("/setup", methods=["GET", "POST"])
 @helpers.login_required
@@ -505,9 +510,20 @@ def question10():
 def results():
     scoretemp = db.execute("SELECT score FROM score")
     score = scoretemp[0]["score"]
-    usernametemp = db.execute("SELECT username FROM users")
+    usernametemp = db.execute("SELECT username FROM users WHERE id=:id", id=session["user_id"])
     username = usernametemp[0]['username']
     db.execute("INSERT INTO allgames (id, score, username) VALUES(:id, :score, :username)", id=session["user_id"], score=score, username=username)
+
+    #Update leaderboard
+    oldscoretemp = db.execute("SELECT total_score FROM leaderboards WHERE username = :username", username=username)
+    print("TEST", oldscoretemp)
+    oldscore = oldscoretemp[0]["total_score"]
+    oldgamestemp = db.execute("SELECT total_games FROM leaderboards WHERE username = :username", username=username)
+    oldgames = oldgamestemp[0]["total_games"]
+    newscore = oldscore + score
+    newgames = oldgames + 1
+    newavarage = newscore / newgames
+    db.execute("UPDATE leaderboards SET total_score = :newscore, total_games = :newgames, avarage_score= :newavarage WHERE username = :username", username=username, newscore=newscore, newgames=newgames, newavarage=newavarage)
     helpers.deleteall()
     return render_template("results.html", score=score)
 
