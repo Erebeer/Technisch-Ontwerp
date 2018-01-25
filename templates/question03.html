@@ -1,16 +1,23 @@
 {% extends "layout.html"%}
 
 {% block title %}
-    Question 1
+    Question 3
 {% endblock %}
 
 {% block main %}
 <h1>Question: {{ question }}</h1>
 <h1>Answer: {{ answer }}</h1>
-<fieldset>
+<h1>Score: {{ score }}</h1>
+    <form action="{{url_for('question01') }}" method="POST">
+        <fieldset>
             <div class="form-group">
                 <input autocomplete="off" autofocus class="form-control" name="answer" placeholder="Answer" type="text"/>
             </div>
- <li><a href="{{ url_for('question04') }}">Next</a></li>
-{% endblock %}
+            <div class="form-group">
+                <button class="btn btn-default" type="submit">Check</button>
+            </div>
+        </fieldset>
+    </form>
+ <li><a href="{{ url_for('results') }}">Next</a></li>
 
+{% endblock %}
