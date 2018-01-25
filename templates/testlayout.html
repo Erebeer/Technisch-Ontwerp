@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+<link rel="shortcut icon" href="/static/img/game-controller.png">
 
 <style>
 
@@ -17,6 +18,7 @@
 </style>
 
 <title>TRIVIA</title>
+
 </head>
 
 <body>
@@ -45,12 +47,13 @@
 <div class="header-image">
   <div class="header-text">
     <h1 class="hoofd"><div class="zwart">Welcome "USER"!</div></h1>
-    <button class="button"><span>Play </span></button>
+    <a href="/login"><button class="button"><span>Play </span></button></a>
   </div>
 </div>
 
 <!-- Login -->
 <h1 class="hoofd">Login test</h1>
+ <p class="midden">Fill in your username and password to login. If you haven't registered yet, click <a href="/register">here</a> to register.</p>
  <form action="{{ url_for('login') }}" method="post">
         <fieldset class="midden">
             <div class="form-group">
@@ -67,13 +70,14 @@
 
 <!-- Register -->
 <h1 class="hoofd">Register test</h1>
+<p class="midden">Please fill in your information to register. Make sure to type in a valid e-mail address!</p>
     <form action="{{ url_for('register') }}" method="post">
         <fieldset class="midden">
             <div class="form-group">
                 <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
             </div>
             <div class="form-group">
-                <input autocomplete="off" autofocus class="form-control" name="email" placeholder="E-mail adress" type="text"/>
+                <input autocomplete="off" autofocus class="form-control" name="email" placeholder="E-mail address" type="text"/>
             </div>
             <div class="form-group">
                 <input class="form-control" name="password" placeholder="Password" type="password"/>

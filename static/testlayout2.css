@@ -21,6 +21,7 @@ li a {
 li a:hover {
     background-color: #848;
 }
+
 .logout {
     background-color: #FF0000;
 }
@@ -28,6 +29,7 @@ li a:hover {
 .midden {
     text-align:center;
 }
+
 input[type=text], select {
     width: 30%;
     padding: 12px 20px;
@@ -37,6 +39,7 @@ input[type=text], select {
     border-radius: 4px;
     box-sizing: border-box;
 }
+
 input[type=password], select {
     width: 30%;
     padding: 12px 20px;
@@ -75,7 +78,6 @@ button[type=submit] {
 
 #leaderboards tr:hover {
     background-color: #ddd;
-
 }
 
 #leaderboards th {
@@ -146,7 +148,7 @@ body, html {
   opacity: 1;
   right: 0;
 }
-.zwart
-{
+
+.zwart {
     color:black;
 }
