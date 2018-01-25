@@ -103,6 +103,8 @@ def wrong():
 @app.route("/setup", methods=["GET", "POST"])
 def setup():
     db.execute("CREATE TABLE game ( number INTEGER, question TEXT, answer TEXT)")
+    db.execute("CREATE TABLE score (score INTEGER)")
+    db.execute("INSERT INTO score (score) VALUES (:score)", score=0)
     for x in range(1, 11):
         question_and_answer = helpers.question1()
         question = question_and_answer[0]
@@ -113,7 +115,6 @@ def setup():
 
 @app.route("/question01", methods=["GET", "POST"])
 def question01():
-    score = 0
     if request.method == "POST":
         questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=1)
         question = questiontemp[0]['question']
@@ -121,20 +122,24 @@ def question01():
         answer = answertemp[0]['answer']
         givenanswer = str(request.form.to_dict('answer')['answer'])
         if givenanswer == answer:
-            score = score + 100
             questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=2)
             question = questiontemp[0]['question']
             answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=2)
             answer = answertemp[0]['answer']
             givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = 100)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
             return render_template("question02.html", score=score, question=question, answer=answer)
         if givenanswer != answer:
-            score = score - 50
             questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=2)
             question = questiontemp[0]['question']
             answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=2)
             answer = answertemp[0]['answer']
             givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = -50)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
             return render_template("question02.html", score=score, question=question, answer=answer)
 
     else:
@@ -142,6 +147,8 @@ def question01():
         question = questiontemp[0]['question']
         answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=1)
         answer = answertemp[0]['answer']
+        scoretemp = db.execute("SELECT score FROM score")
+        score = scoretemp[0]["score"]
         return render_template("question01.html", question=question, answer = answer, score=score)
 
 @app.route("/question02", methods=["GET", "POST"])
@@ -153,20 +160,24 @@ def question02():
         answer = answertemp[0]['answer']
         givenanswer = str(request.form.to_dict('answer')['answer'])
         if givenanswer == answer:
-            score = score + 100
             questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=3)
             question = questiontemp[0]['question']
             answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=3)
             answer = answertemp[0]['answer']
             givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = 100)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
             return render_template("question03.html", score=score, question=question, answer=answer)
         if givenanswer != answer:
-            score = score - 50
             questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=3)
             question = questiontemp[0]['question']
             answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=3)
             answer = answertemp[0]['answer']
             givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = -50)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
             return render_template("question03.html", score=score, question=question, answer=answer)
 
     else:
@@ -174,16 +185,320 @@ def question02():
         question = questiontemp[0]['question']
         answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=2)
         answer = answertemp[0]['answer']
+        scoretemp = db.execute("SELECT score FROM score")
+        score = scoretemp[0]["score"]
         return render_template("question02.html", question=question, answer = answer, score=score)
 
 @app.route("/question03", methods=["GET", "POST"])
 def question03():
-    return render_template("question03.html")
+    if request.method == "POST":
+        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=3)
+        question = questiontemp[0]['question']
+        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=3)
+        answer = answertemp[0]['answer']
+        givenanswer = str(request.form.to_dict('answer')['answer'])
+        if givenanswer == answer:
+            questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=4)
+            question = questiontemp[0]['question']
+            answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=4)
+            answer = answertemp[0]['answer']
+            givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = 100)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
+            return render_template("question04.html", score=score, question=question, answer=answer)
+        if givenanswer != answer:
+            questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=4)
+            question = questiontemp[0]['question']
+            answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=4)
+            answer = answertemp[0]['answer']
+            givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = -50)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
+            return render_template("question04.html", score=score, question=question, answer=answer)
 
+    else:
+        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=3)
+        question = questiontemp[0]['question']
+        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=3)
+        answer = answertemp[0]['answer']
+        scoretemp = db.execute("SELECT score FROM score")
+        score = scoretemp[0]["score"]
+        return render_template("question03.html", question=question, answer = answer, score=score)
+
+@app.route("/question04", methods=["GET", "POST"])
+def question04():
+    if request.method == "POST":
+        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=4)
+        question = questiontemp[0]['question']
+        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=4)
+        answer = answertemp[0]['answer']
+        givenanswer = str(request.form.to_dict('answer')['answer'])
+        if givenanswer == answer:
+            questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=5)
+            question = questiontemp[0]['question']
+            answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=5)
+            answer = answertemp[0]['answer']
+            givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = 100)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
+            return render_template("question05.html", score=score, question=question, answer=answer)
+        if givenanswer != answer:
+            questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=5)
+            question = questiontemp[0]['question']
+            answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=5)
+            answer = answertemp[0]['answer']
+            givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = -50)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
+            return render_template("question05.html", score=score, question=question, answer=answer)
+
+    else:
+        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=4)
+        question = questiontemp[0]['question']
+        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=4)
+        answer = answertemp[0]['answer']
+        scoretemp = db.execute("SELECT score FROM score")
+        score = scoretemp[0]["score"]
+        return render_template("question04.html", question=question, answer = answer, score=score)
+
+@app.route("/question05", methods=["GET", "POST"])
+def question05():
+    if request.method == "POST":
+        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=5)
+        question = questiontemp[0]['question']
+        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=5)
+        answer = answertemp[0]['answer']
+        givenanswer = str(request.form.to_dict('answer')['answer'])
+        if givenanswer == answer:
+            questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=6)
+            question = questiontemp[0]['question']
+            answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=6)
+            answer = answertemp[0]['answer']
+            givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = 100)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
+            return render_template("question06.html", score=score, question=question, answer=answer)
+        if givenanswer != answer:
+            questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=6)
+            question = questiontemp[0]['question']
+            answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=6)
+            answer = answertemp[0]['answer']
+            givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = -50)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
+            return render_template("question06.html", score=score, question=question, answer=answer)
+
+    else:
+        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=5)
+        question = questiontemp[0]['question']
+        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=5)
+        answer = answertemp[0]['answer']
+        scoretemp = db.execute("SELECT score FROM score")
+        score = scoretemp[0]["score"]
+        return render_template("question05.html", question=question, answer = answer, score=score)
+
+@app.route("/question06", methods=["GET", "POST"])
+def question06():
+    if request.method == "POST":
+        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=6)
+        question = questiontemp[0]['question']
+        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=6)
+        answer = answertemp[0]['answer']
+        givenanswer = str(request.form.to_dict('answer')['answer'])
+        if givenanswer == answer:
+            questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=7)
+            question = questiontemp[0]['question']
+            answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=7)
+            answer = answertemp[0]['answer']
+            givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = 100)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
+            return render_template("question07.html", score=score, question=question, answer=answer)
+        if givenanswer != answer:
+            questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=7)
+            question = questiontemp[0]['question']
+            answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=7)
+            answer = answertemp[0]['answer']
+            givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = -50)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
+            return render_template("question07.html", score=score, question=question, answer=answer)
+
+    else:
+        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=6)
+        question = questiontemp[0]['question']
+        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=6)
+        answer = answertemp[0]['answer']
+        scoretemp = db.execute("SELECT score FROM score")
+        score = scoretemp[0]["score"]
+        return render_template("question06.html", question=question, answer = answer, score=score)
+
+@app.route("/question07", methods=["GET", "POST"])
+def question07():
+    if request.method == "POST":
+        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=7)
+        question = questiontemp[0]['question']
+        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=7)
+        answer = answertemp[0]['answer']
+        givenanswer = str(request.form.to_dict('answer')['answer'])
+        if givenanswer == answer:
+            questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=8)
+            question = questiontemp[0]['question']
+            answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=8)
+            answer = answertemp[0]['answer']
+            givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = 100)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
+            return render_template("question08.html", score=score, question=question, answer=answer)
+        if givenanswer != answer:
+            questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=8)
+            question = questiontemp[0]['question']
+            answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=8)
+            answer = answertemp[0]['answer']
+            givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = -50)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
+            return render_template("question08.html", score=score, question=question, answer=answer)
+
+    else:
+        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=7)
+        question = questiontemp[0]['question']
+        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=7)
+        answer = answertemp[0]['answer']
+        scoretemp = db.execute("SELECT score FROM score")
+        score = scoretemp[0]["score"]
+        return render_template("question07.html", question=question, answer = answer, score=score)
+
+
+@app.route("/question08", methods=["GET", "POST"])
+def question08():
+    if request.method == "POST":
+        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=8)
+        question = questiontemp[0]['question']
+        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=8)
+        answer = answertemp[0]['answer']
+        givenanswer = str(request.form.to_dict('answer')['answer'])
+        if givenanswer == answer:
+            questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=9)
+            question = questiontemp[0]['question']
+            answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=9)
+            answer = answertemp[0]['answer']
+            givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = 100)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
+            return render_template("question09.html", score=score, question=question, answer=answer)
+        if givenanswer != answer:
+            questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=9)
+            question = questiontemp[0]['question']
+            answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=9)
+            answer = answertemp[0]['answer']
+            givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = -50)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
+            return render_template("question09.html", score=score, question=question, answer=answer)
+
+    else:
+        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=8)
+        question = questiontemp[0]['question']
+        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=8)
+        answer = answertemp[0]['answer']
+        scoretemp = db.execute("SELECT score FROM score")
+        score = scoretemp[0]["score"]
+        return render_template("question08.html", question=question, answer = answer, score=score)
+
+@app.route("/question09", methods=["GET", "POST"])
+def question09():
+    if request.method == "POST":
+        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=9)
+        question = questiontemp[0]['question']
+        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=9)
+        answer = answertemp[0]['answer']
+        givenanswer = str(request.form.to_dict('answer')['answer'])
+        if givenanswer == answer:
+            questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=10)
+            question = questiontemp[0]['question']
+            answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=10)
+            answer = answertemp[0]['answer']
+            givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = 100)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
+            return render_template("question10.html", score=score, question=question, answer=answer)
+        if givenanswer != answer:
+            questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=10)
+            question = questiontemp[0]['question']
+            answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=10)
+            answer = answertemp[0]['answer']
+            givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = -50)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
+            return render_template("question10.html", score=score, question=question, answer=answer)
+
+    else:
+        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=9)
+        question = questiontemp[0]['question']
+        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=9)
+        answer = answertemp[0]['answer']
+        scoretemp = db.execute("SELECT score FROM score")
+        score = scoretemp[0]["score"]
+        return render_template("question09.html", question=question, answer = answer, score=score)
+
+@app.route("/question10", methods=["GET", "POST"])
+def question10():
+    if request.method == "POST":
+        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=10)
+        question = questiontemp[0]['question']
+        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=10)
+        answer = answertemp[0]['answer']
+        givenanswer = str(request.form.to_dict('answer')['answer'])
+        if givenanswer == answer:
+            questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=10)
+            question = questiontemp[0]['question']
+            answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=10)
+            answer = answertemp[0]['answer']
+            givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = 100)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
+            return render_template("results.html")
+        if givenanswer != answer:
+            questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=10)
+            question = questiontemp[0]['question']
+            answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=10)
+            answer = answertemp[0]['answer']
+            givenanswer = str(request.form.to_dict('answer')['answer'])
+            db.execute("UPDATE score SET score = score + :mutation", mutation = -50)
+            scoretemp = db.execute("SELECT score FROM score")
+            score = scoretemp[0]["score"]
+            return render_template("results.html")
+
+    else:
+        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=10)
+        question = questiontemp[0]['question']
+        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=10)
+        answer = answertemp[0]['answer']
+        scoretemp = db.execute("SELECT score FROM score")
+        score = scoretemp[0]["score"]
+        return render_template("question10.html", question=question, answer = answer, score=score)
 
 
 @app.route("/results", methods=["GET"])
 def results():
+    scoretemp = db.execute("SELECT score FROM score")
+    score = scoretemp[0]["score"]
     helpers.deleteall()
     return render_template("results.html")
 
