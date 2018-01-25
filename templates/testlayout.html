@@ -2,7 +2,20 @@
 <html>
 
 <head>
-<link href="{{ url_for('static', filename='testlayout.css') }}" rel="stylesheet"/>
+<link href="{{ url_for('static', filename='testlayout2.css') }}" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+<style>
+
+.hoofd
+{
+    font-family: "Lobster", serif;
+}
+
+</style>
+
 <title>TRIVIA</title>
 </head>
 
@@ -19,7 +32,71 @@
     <li><a href="/about">About</a></li>
 </ul>
 
-<h1>DIT IS HOMEPAGINA</h1>
+
+
+<div class="midden">
+<h1 class="hoofd">Dit is de Homepage</h1>
+<p>dddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
+<p>aaaaaaaaaaaaaaaaaaaaaa</p>
+</div>
+
+<!-- Homepage -->
+<h1 class="hoofd">Header test</h1>
+<div class="header-image">
+  <div class="header-text">
+    <h1 class="hoofd"><div class="zwart">Welcome "USER"!</div></h1>
+    <button class="button"><span>Play </span></button>
+  </div>
+</div>
+
+<!-- Login -->
+<h1 class="hoofd">Login test</h1>
+ <form action="{{ url_for('login') }}" method="post">
+        <fieldset class="midden">
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="password" placeholder="Password" type="password"/>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" type="submit">Log in</button>
+            </div>
+        </fieldset>
+    </form>
+
+<!-- Register -->
+<h1 class="hoofd">Register test</h1>
+    <form action="{{ url_for('register') }}" method="post">
+        <fieldset class="midden">
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
+            </div>
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="email" placeholder="E-mail adress" type="text"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="password" placeholder="Password" type="password"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="verificationpassword" placeholder="Verification Password" type="password"/>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" type="submit">Register</button>
+            </div>
+        </fieldset>
+    </form>
+
+<!-- Leaderboards -->
+<h1 class="hoofd">Leaderboards test</h1>
+    <table id="leaderboards" style="width:100%">
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Games Played</th>
+        <th>Total Score</th>
+        <th>Avarage Score</th>
+      </tr>
 
 </body>
 </html>
