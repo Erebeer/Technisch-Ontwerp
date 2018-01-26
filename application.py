@@ -12,7 +12,7 @@ app.config['SECRET_KEY']="Your secret key"
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///trivia.db")
 
-@app.route('/', methods =["GET", "POST"])
+@app.route('/', methods =["GET"])
 def home():
     return render_template("home.html")
 
@@ -141,61 +141,22 @@ def question10():
     else:
         return trivia.displaygame(num)
 
-
 @app.route("/results", methods=["GET"])
 @helpers.login_required
 def results():
-    scoretemp = db.execute("SELECT score FROM score")
-    score = scoretemp[0]["score"]
-    usernametemp = db.execute("SELECT username FROM users WHERE id=:id", id=session["user_id"])
-    username = usernametemp[0]['username']
-    db.execute("INSERT INTO allgames (id, score, username) VALUES(:id, :score, :username)", id=session["user_id"], score=score, username=username)
-
-    #Update leaderboard
-    oldscoretemp = db.execute("SELECT total_score FROM leaderboards WHERE username = :username", username=username)
-    print("TEST", oldscoretemp)
-    oldscore = oldscoretemp[0]["total_score"]
-    oldgamestemp = db.execute("SELECT total_games FROM leaderboards WHERE username = :username", username=username)
-    oldgames = oldgamestemp[0]["total_games"]
-    newscore = oldscore + score
-    newgames = oldgames + 1
-    newavarage = newscore / newgames
-    db.execute("UPDATE leaderboards SET total_score = :newscore, total_games = :newgames, avarage_score= :newavarage WHERE username = :username", username=username, newscore=newscore, newgames=newgames, newavarage=newavarage)
-    helpers.deleteall()
-    return render_template("results.html", score=score)
-
-def play():
-    # Set score
-    score = 0
-
-    for x in questions:
-        correct_answer = questions[x][1].lower()
-        print(correct_answer)
-        print(questions[x][0])
-        print("Your Answer: ", end="")
-        answer = request.form.get("answer")
-
-        if answer == correct_answer:
-            print("Correct!")
-            score = score + 100
-        elif answer == "pass":
-            print("passed, you'll lose 50 points")
-            score = score - 50
-        else:
-            score = score - 100
-            print("Wrong, you'll lose 100 points")
-        print("current score: ",score)
-
-    print("Total Score: ", score)
-    return render_template("game.html")
-
+    # Get the right username and score
+    username = trivia.select_username()
+    score = trivia.select_score()
+    # Saves the game
+    trivia.save_game()
+    #Update leaderboard and show the result
+    return trivia.update_leaderboard()
 
 @app.route("/logout", methods=["GET", "POST"])
 @helpers.login_required
 def logout():
-    # Clear the session, forget user_id
+    # Logs the user out
     session.clear()
-
     # Go back to the homepage
     return render_template("logout.html")
 
