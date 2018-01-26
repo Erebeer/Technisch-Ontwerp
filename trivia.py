@@ -108,3 +108,21 @@ def select_score():
     score = scoretemp[0]["score"]
     return score
 
+def save_game():
+    score = select_score()
+    username = select_username()
+    return db.execute("INSERT INTO allgames (id, score, username) VALUES(:id, :score, :username)", id=session["user_id"], score=score, username=username)
+
+def update_leaderboard():
+    username = select_username()
+    score = select_score()
+    oldscoretemp = db.execute("SELECT total_score FROM leaderboards WHERE username = :username", username=username)
+    oldscore = oldscoretemp[0]["total_score"]
+    oldgamestemp = db.execute("SELECT total_games FROM leaderboards WHERE username = :username", username=username)
+    oldgames = oldgamestemp[0]["total_games"]
+    newscore = oldscore + score
+    newgames = oldgames + 1
+    newavarage = newscore / newgames
+    db.execute("UPDATE leaderboards SET total_score = :newscore, total_games = :newgames, avarage_score= :newavarage WHERE username = :username", username=username, newscore=newscore, newgames=newgames, newavarage=newavarage)
+    helpers.deleteall()
+    return render_template("results.html", score=score)
