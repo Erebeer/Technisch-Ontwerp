@@ -12,9 +12,12 @@
         <th>Total Score</th>
         <th>Avarage Score</th>
       </tr>
-    {% for x in leaderboard %}
+    {% for row in leaderboard %}
       <tr>
-        <td>{{ x.ID }}</td>
+        <td>{{ row.username }}</td>
+        <td>{{ row.total_games }}</td>
+        <td>{{ row.total_score }}</td>
+        <td>{{ row.avarage_score }}</td>
       </tr>
 {% endfor %}
 {% endblock %}

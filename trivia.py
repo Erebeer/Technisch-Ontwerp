@@ -4,6 +4,8 @@ from flask_session import Session
 from passlib.apps import custom_app_context as pwd_context
 from tempfile import mkdtemp
 import helpers
+import trivia
+
 
 db = SQL("sqlite:///trivia.db")
 
@@ -72,3 +74,37 @@ def processquestion(num):
             else:
                 template = "results.html"
             return render_template(template, score=score, question=question, answer=answer)
+
+def displaygame(num):
+    question = displayquestion(num)
+    answer = displayanswer(num)
+    score = 0
+    template = "question0"+str(num)+".html"
+    return render_template(template, question=question, answer = answer, score=score)
+
+def show_leaderboard():
+    leaderboards = db.execute("SELECT * from leaderboards")
+    return render_template("leaderboards.html", leaderboard = leaderboards)
+
+def create_game():
+    db.execute("CREATE TABLE game ( number INTEGER, question TEXT, answer TEXT)")
+    db.execute("CREATE TABLE score (score INTEGER)")
+    db.execute("INSERT INTO score (score) VALUES (:score)", score=0)
+    for x in range(1, 11):
+        question_and_answer = helpers.question()
+        question = question_and_answer[0]
+        answer = question_and_answer[1]
+        number = x
+        db.execute("INSERT INTO game (number, question, answer) VALUES(:number, :question, :answer)", number=number, question=question, answer=answer )
+    return render_template("setup.html")
+
+def select_username():
+    usernametemp = db.execute("SELECT username FROM users WHERE id=:id", id=session["user_id"])
+    username = usernametemp[0]['username']
+    return username
+
+def select_score():
+    scoretemp = db.execute("SELECT score FROM score")
+    score = scoretemp[0]["score"]
+    return score
+
