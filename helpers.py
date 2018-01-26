@@ -5,6 +5,7 @@ from flask import redirect, render_template, request, session
 from functools import wraps
 import time
 from cs50 import SQL
+import html
 
 db = SQL("sqlite:///trivia.db")
 
@@ -42,8 +43,8 @@ def generate():
 
 def question():
     questions = generate()
-    question = questions[0][0]
-    answer = questions[0][1]
+    question = html.unescape(questions[0][0])
+    answer = html.unescape(questions[0][1])
     return ([question, answer])
 
 def timerset():
