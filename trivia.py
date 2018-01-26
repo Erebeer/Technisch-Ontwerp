@@ -45,13 +45,30 @@ def processquestion(num):
         answer = displayanswer(num)
         givenanswer = str(request.form.to_dict('answer')['answer'])
         if givenanswer == answer:
-            question = displayquestion(num+1)
-            answer = displayanswer(num+1)
-            score = updatescore(num)
-            return render_template("question02.html", score=score, question=question, answer=answer)
+            if num != 10:
+                question = displayquestion(num+1)
+                answer = displayanswer(num+1)
+                score = updatescore(num)
+            else:
+                question = displayquestion(num)
+                answer = displayanswer(num)
+                score = updatescore(num)
+            if num != 10:
+                template = "question0"+str(num + 1)+".html"
+            else:
+                template = "results.html"
+            return render_template(template, score=score, question=question, answer=answer)
         if givenanswer != answer:
-            question = displayquestion(num+1)
-            answer = displayanswer(num+1)
-            score = updatescore(num)
-            return render_template("question02.html", score=score, question=question, answer=answer)
-
+            if num != 10:
+                question = displayquestion(num+1)
+                answer = displayanswer(num+1)
+                score = updatescore(num)
+            else:
+                question = displayquestion(num)
+                answer = displayanswer(num)
+                score = updatescore(num)
+            if num != 10:
+                template = "question0"+str(num + 1)+".html"
+            else:
+                template = "results.html"
+            return render_template(template, score=score, question=question, answer=answer)
