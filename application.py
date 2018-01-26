@@ -4,6 +4,8 @@ from flask_session import Session
 from passlib.apps import custom_app_context as pwd_context
 from tempfile import mkdtemp
 import helpers
+import trivia
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY']="Your secret key"
@@ -116,40 +118,14 @@ def setup():
 @app.route("/question01", methods=["GET", "POST"])
 @helpers.login_required
 def question01():
+    num = 1
     if request.method == "POST":
-        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=1)
-        question = questiontemp[0]['question']
-        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=1)
-        answer = answertemp[0]['answer']
-        givenanswer = str(request.form.to_dict('answer')['answer'])
-        if givenanswer == answer:
-            questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=2)
-            question = questiontemp[0]['question']
-            answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=2)
-            answer = answertemp[0]['answer']
-            givenanswer = str(request.form.to_dict('answer')['answer'])
-            db.execute("UPDATE score SET score = score + :mutation", mutation = 100)
-            scoretemp = db.execute("SELECT score FROM score")
-            score = scoretemp[0]["score"]
-            return render_template("question02.html", score=score, question=question, answer=answer)
-        if givenanswer != answer:
-            questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=2)
-            question = questiontemp[0]['question']
-            answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=2)
-            answer = answertemp[0]['answer']
-            givenanswer = str(request.form.to_dict('answer')['answer'])
-            db.execute("UPDATE score SET score = score + :mutation", mutation = -50)
-            scoretemp = db.execute("SELECT score FROM score")
-            score = scoretemp[0]["score"]
-            return render_template("question02.html", score=score, question=question, answer=answer)
+        return trivia.processquestion(num)
 
     else:
-        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=1)
-        question = questiontemp[0]['question']
-        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=1)
-        answer = answertemp[0]['answer']
-        scoretemp = db.execute("SELECT score FROM score")
-        score = scoretemp[0]["score"]
+        question = trivia.displayquestion(num)
+        answer = trivia.displayanswer(num)
+        score = 0
         return render_template("question01.html", question=question, answer = answer, score=score)
 
 @app.route("/question02", methods=["GET", "POST"])

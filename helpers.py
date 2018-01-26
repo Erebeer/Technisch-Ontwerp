@@ -10,7 +10,6 @@ import html
 db = SQL("sqlite:///trivia.db")
 
 def error(message, topmessage="ERROR"):
-    "Returns an error message"
     def escape(s):
         for old, new in [("-", "--"), (" ", "-"), ("_", "__"), ("?", "~q"),
                          ("%", "~p"), ("#", "~h"), ("/", "~s"), ("\"", "''")]:
@@ -47,6 +46,18 @@ def question():
     answer = html.unescape(questions[0][1])
     return ([question, answer])
 
+def deleteall():
+    db.execute("DROP TABLE game")
+    db.execute("DROP TABLE score")
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("user_id") is None:
+            return redirect("/login")
+        return f(*args, **kwargs)
+    return decorated_function
+
 def timerset():
     while True:
         seconds = input(">> ")
@@ -65,19 +76,4 @@ def timerset():
             time.sleep(1)
             stop_when -= 1
 
-def deleteall():
-    db.execute("DROP TABLE game")
-    db.execute("DROP TABLE score")
 
-def login_required(f):
-    """
-    Decorate routes to require login.
-
-    http://flask.pocoo.org/docs/0.12/patterns/viewdecorators/
-    """
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if session.get("user_id") is None:
-            return redirect("/login")
-        return f(*args, **kwargs)
-    return decorated_function
