@@ -6,7 +6,6 @@ from tempfile import mkdtemp
 import helpers
 import trivia
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY']="Your secret key"
 
@@ -19,35 +18,10 @@ def home():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    """Log user in."""
     # forget any user_id
-    # session.clear()
-
-    # if user reached route via POST (as by submitting a form via POST)
+    session.clear()
     if request.method == "POST":
-
-        # ensure username was submitted
-        if not request.form.get("username"):
-            return helpers.error("must provide username")
-
-        # ensure password was submitted
-        elif not request.form.get("password"):
-            return helpers.error("must provide password")
-
-        # query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = :username", username=request.form.get("username"))
-
-        # ensure username exists and password is correct
-        if len(rows) != 1 or not pwd_context.verify(request.form.get("password"), rows[0]["hash"]):
-            return helpers.error("invalid username and/or password")
-
-        # remember which user has logged in
-        session["user_id"] = rows[0]["id"]
-
-        # redirect user to home page
-        return redirect(url_for("index"))
-
-    # else if user reached route via GET (as by clicking a link or via redirect)
+        return helpers.login()
     else:
         return render_template("login.html")
 
@@ -55,38 +29,7 @@ def login():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-
-        # ensure username was submitted
-        if not request.form.get("username"):
-            return helpers.error("No username")
-
-        # ensure password was submitted
-        elif not request.form.get("password"):
-            return helpers.error("No password")
-
-        # ensure password and verified password is the same
-        elif request.form.get("password") != request.form.get("verificationpassword"):
-            return helpers.error("Verification does not match")
-
-        hash = pwd_context.hash(request.form.get("password"))
-
-        # Saves username to the database
-        result = db.execute("INSERT INTO users (username, hash) VALUES(:username, :hash)",username=request.form.get("username"), hash = hash)
-
-        if not result:
-           return helpers.error("Just Error")
-
-        # Keeps the registered user logged in()
-        session["user_id"] = result
-
-        # Adds username to the leaderboards
-        usernametemp = db.execute("SELECT username FROM users WHERE id= :id", id=session["user_id"])
-        username = usernametemp[0]["username"]
-        db.execute("INSERT INTO leaderboards (username, total_games, total_score, avarage_score) VALUES (:username, :total_games, :total_score, :avarage_score)", username=username, total_games=0, total_score=0, avarage_score=0)
-
-        # Goes to homepage
-        return redirect(url_for("index"))
-
+        return helpers.register()
     else:
         return render_template("register.html")
 
@@ -98,22 +41,12 @@ def index():
 @app.route("/leaderboards", methods=["GET", "POST"])
 @helpers.login_required
 def leaderboards():
-    leaderboards = db.execute("SELECT * from leaderboards")
-    return render_template("leaderboards.html", leaderboard = leaderboards)
+    return trivia.show_leaderboard()
 
 @app.route("/setup", methods=["GET", "POST"])
 @helpers.login_required
 def setup():
-    db.execute("CREATE TABLE game ( number INTEGER, question TEXT, answer TEXT)")
-    db.execute("CREATE TABLE score (score INTEGER)")
-    db.execute("INSERT INTO score (score) VALUES (:score)", score=0)
-    for x in range(1, 11):
-        question_and_answer = helpers.question()
-        question = question_and_answer[0]
-        answer = question_and_answer[1]
-        number = x
-        db.execute("INSERT INTO game (number, question, answer) VALUES(:number, :question, :answer)", number=number, question=question, answer=answer )
-    return render_template("setup.html")
+    return trivia.create_game()
 
 @app.route("/question01", methods=["GET", "POST"])
 @helpers.login_required
@@ -121,12 +54,8 @@ def question01():
     num = 1
     if request.method == "POST":
         return trivia.processquestion(num)
-
     else:
-        question = trivia.displayquestion(num)
-        answer = trivia.displayanswer(num)
-        score = 0
-        return render_template("question01.html", question=question, answer = answer, score=score)
+        return trivia.displaygame(num)
 
 @app.route("/question02", methods=["GET", "POST"])
 @helpers.login_required
@@ -134,15 +63,8 @@ def question02():
     num = 2
     if request.method == "POST":
         return trivia.processquestion(num)
-
     else:
-        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=2)
-        question = questiontemp[0]['question']
-        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=2)
-        answer = answertemp[0]['answer']
-        scoretemp = db.execute("SELECT score FROM score")
-        score = scoretemp[0]["score"]
-        return render_template("question02.html", question=question, answer = answer, score=score)
+        return trivia.displaygame(num)
 
 @app.route("/question03", methods=["GET", "POST"])
 @helpers.login_required
@@ -150,15 +72,8 @@ def question03():
     num = 3
     if request.method == "POST":
         return trivia.processquestion(num)
-
     else:
-        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=3)
-        question = questiontemp[0]['question']
-        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=3)
-        answer = answertemp[0]['answer']
-        scoretemp = db.execute("SELECT score FROM score")
-        score = scoretemp[0]["score"]
-        return render_template("question03.html", question=question, answer = answer, score=score)
+        return trivia.displaygame(num)
 
 @app.route("/question04", methods=["GET", "POST"])
 @helpers.login_required
@@ -166,15 +81,8 @@ def question04():
     num = 4
     if request.method == "POST":
         return trivia.processquestion(num)
-
     else:
-        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=4)
-        question = questiontemp[0]['question']
-        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=4)
-        answer = answertemp[0]['answer']
-        scoretemp = db.execute("SELECT score FROM score")
-        score = scoretemp[0]["score"]
-        return render_template("question04.html", question=question, answer = answer, score=score)
+        return trivia.displaygame(num)
 
 @app.route("/question05", methods=["GET", "POST"])
 @helpers.login_required
@@ -182,15 +90,9 @@ def question05():
     num = 5
     if request.method == "POST":
         return trivia.processquestion(num)
-
     else:
-        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=5)
-        question = questiontemp[0]['question']
-        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=5)
-        answer = answertemp[0]['answer']
-        scoretemp = db.execute("SELECT score FROM score")
-        score = scoretemp[0]["score"]
-        return render_template("question05.html", question=question, answer = answer, score=score)
+        return trivia.displaygame(num)
+
 
 @app.route("/question06", methods=["GET", "POST"])
 @helpers.login_required
@@ -198,15 +100,8 @@ def question06():
     num = 6
     if request.method == "POST":
         return trivia.processquestion(num)
-
     else:
-        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=6)
-        question = questiontemp[0]['question']
-        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=6)
-        answer = answertemp[0]['answer']
-        scoretemp = db.execute("SELECT score FROM score")
-        score = scoretemp[0]["score"]
-        return render_template("question06.html", question=question, answer = answer, score=score)
+        return trivia.displaygame(num)
 
 @app.route("/question07", methods=["GET", "POST"])
 @helpers.login_required
@@ -216,13 +111,7 @@ def question07():
         return trivia.processquestion(num)
 
     else:
-        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=7)
-        question = questiontemp[0]['question']
-        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=7)
-        answer = answertemp[0]['answer']
-        scoretemp = db.execute("SELECT score FROM score")
-        score = scoretemp[0]["score"]
-        return render_template("question07.html", question=question, answer = answer, score=score)
+        return trivia.displaygame(num)
 
 
 @app.route("/question08", methods=["GET", "POST"])
@@ -231,15 +120,8 @@ def question08():
     num = 8
     if request.method == "POST":
         return trivia.processquestion(num)
-
     else:
-        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=8)
-        question = questiontemp[0]['question']
-        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=8)
-        answer = answertemp[0]['answer']
-        scoretemp = db.execute("SELECT score FROM score")
-        score = scoretemp[0]["score"]
-        return render_template("question08.html", question=question, answer = answer, score=score)
+        return trivia.displaygame(num)
 
 @app.route("/question09", methods=["GET", "POST"])
 @helpers.login_required
@@ -247,15 +129,8 @@ def question09():
     num = 9
     if request.method == "POST":
         return trivia.processquestion(num)
-
     else:
-        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=9)
-        question = questiontemp[0]['question']
-        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=9)
-        answer = answertemp[0]['answer']
-        scoretemp = db.execute("SELECT score FROM score")
-        score = scoretemp[0]["score"]
-        return render_template("question09.html", question=question, answer = answer, score=score)
+        return trivia.displaygame(num)
 
 @app.route("/question10", methods=["GET", "POST"])
 @helpers.login_required
@@ -263,15 +138,8 @@ def question10():
     num = 10
     if request.method == "POST":
         return trivia.processquestion(num)
-
     else:
-        questiontemp = db.execute("SELECT question FROM game WHERE number=:number", number=10)
-        question = questiontemp[0]['question']
-        answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=10)
-        answer = answertemp[0]['answer']
-        scoretemp = db.execute("SELECT score FROM score")
-        score = scoretemp[0]["score"]
-        return render_template("question10.html", score=score, question=question, answer=answer)
+        return trivia.displaygame(num)
 
 
 @app.route("/results", methods=["GET"])
