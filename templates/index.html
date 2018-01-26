@@ -3,13 +3,14 @@
 
 {% block main%}
 
-<h1>Choose the settings and Play!</h1>
+<h1>Greetings {{session.username}} !</h1>
+<h2>Choose the settings and Play!</h1>
 
-     <fieldset>
-         <h2>Choose Difficulty</h2>
+    <fieldset>
+        <h2>Choose Difficulty</h2>
 
-     <form action="{{ url_for('question01') }}" method="post">
-        <fieldset>
+    <form action="{{ url_for('question01') }}" method="post">
+    <fieldset>
             <div class="form-group">
                 <select>
                     <option value="novice">Novice</option>
@@ -19,8 +20,7 @@
             </div>
         </fieldset>
 
-        <h2>Play!</h2>
-            <li><a href="{{ url_for('setup') }}">Setup</a></li>
+<a href="{{ url_for('setup') }}"><h2>Setup</h2></a>
         </fieldset>
 
 {% endblock %}

@@ -3,19 +3,23 @@
 <title>Welcome to The most awesome Trivia Game!</title>
 
 {% block main%}
-                    <h1>Prototype Eric Louwers & Lars Bremmers</h1>
-                    <h2>Student IDs: 11853751 & 11861738</h2>
+
+<div class="header-image">
+  <div class="header-text">
+    <h1 class="hoofd"><div class="zwart">Welcome "USER"!</div></h1>
+  </div>
+</div>
 
 
-                    <h2>Welcome! Login or Register</h2>
+<div style="text-align:center">
+<h1 class="hoofd">Dit is de Homepage</h1>
+<p>Prototype Eric Louwers & Lars Bremmers</p>
+<p>Student IDs: 11853751 & 11861</p>
+</div>
 
-    <fieldset>
-            <li><a href="{{ url_for('login') }}">Login</a></li>
-            <li><a href="{{ url_for('register') }}">Register</a></li>
-            <li><a href="{{ url_for('index') }}">Index</a></li>
-            <li><a href="{{ url_for('leaderboards') }}">Leaderboards</a></li>
-            <li><a href="{{ url_for('index') }}">Play</a></li>
-            <li><a href="{{ url_for('testlayout') }}">test layout</a></li>
-    </fieldset>
-</form>
+<div style="text-align:center;">
+<a href="/login"><button class="button"><span>Login </span></button></a>
+<a href="/register"><button class="button"><span>Register </span></button></a>
+</div>
+
 {% endblock %}

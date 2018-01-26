@@ -5,8 +5,10 @@
 {% endblock %}
 
 {% block main %}
-    <form action="{{ url_for('login') }}" method="post">
-        <fieldset>
+ <h1 class="hoofd">Login test</h1>
+ <p class="midden">Fill in your username and password to login. If you haven't registered yet, click <a href="/register">here</a> to register.</p>
+ <form action="{{ url_for('login') }}" method="post">
+        <fieldset class="midden">
             <div class="form-group">
                 <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
             </div>
@@ -14,7 +16,7 @@
                 <input class="form-control" name="password" placeholder="Password" type="password"/>
             </div>
             <div class="form-group">
-                <button class="btn btn-default" type="submit">Log In</button>
+                <button class="btn btn-default" type="submit">Log in</button>
             </div>
         </fieldset>
     </form>

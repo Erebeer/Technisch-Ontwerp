@@ -1,74 +1,50 @@
 <!DOCTYPE html>
+<html>
 
-<html lang="en">
+<head>
+<link href="{{ url_for('static', filename='testlayout2.css') }}" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+<link rel="shortcut icon" href="/static/img/game-controller.png">
 
-    <head>
+<style>
 
-        <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta -->
-        <meta charset="utf-8"/>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta content="initial-scale=1, width=device-width" name="viewport"/>
+.hoofd
+{
+    font-family: "Lobster", serif;
+    text-align:center;
+}
 
-        <!-- documentation at http://getbootstrap.com/, alternative themes at https://www.bootstrapcdn.com/bootswatch/ -->
-        <link href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0-beta.3/cyborg/bootstrap.min.css" rel="stylesheet"/>
+</style>
 
-        <link href="{{ url_for('static', filename='testlayout2.css') }}" rel="stylesheet"/>
+<title>TRIVIA{% block title %}{% endblock %}</title>
 
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
 
-        <title>Trivia {% block title %}{% endblock %}</title>
+<body>
+{% if session.user_id %}
+<ul>
+    <li><a href="{{ url_for('home') }}"><img src="https://upload.wikimedia.org/wikipedia/en/archive/2/27/20100328194043%21Trivia.png" width="70" height="14"></img></a></li>
+    <li><a href="{{ url_for('leaderboards') }}">Leaderboards</a></li>
+    <li><a href="{{ url_for('index') }}">Play</a></li>
+    <li style="float:right"><a class= "logout" href="/logout">Hi! {{session['username']}}</a></li>
+    <li><a href="/contact">Contact</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+{% elif not session.logged_in %}
+<ul>
+    <li><a href="{{ url_for('home') }}"><img src="https://upload.wikimedia.org/wikipedia/en/archive/2/27/20100328194043%21Trivia.png" width="70" height="14"></img></a></li>
+    <li><a href="{{ url_for('leaderboards') }}">Leaderboards</a></li>
+    <li><a href="/contact">Contact</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+ {% endif %}
 
-    </head>
-
-    <body>
-
-        <div class="container">
-
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed"
-                        data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-                        aria-controls="navbar">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                    <a class="navbar-brand" href="{{ url_for('index') }}"><span class="red">T</span><span class="yellow">R</span><span class="red">IV</span><span class="yellow">I</span> <span class="red">A</span></a>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/login">Login</a></li>
-                        <li><a href="/register">Register</a></li>
-                        <li><a href="/leaderboards">Leaderboards</a></li>
-                        <li><a href="/index">Index</a></li>
-                        <li><a href="/logout">Logout</a></li>
-                    </ul>
-                <div class="collapse navbar-collapse" id="navbar">
-                        {% if session.user_id %}
-                        <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/leaderboards">Leaderboards</a></li>
-                        <li><a href="/index">Index</a></li>
-                        <li><a href="/logout">Logout</a></li>
-
-                            </ul>
-                        {% else %}
-                            <ul class="nav navbar-nav navbar-right">
-                                <li><a href="{{ url_for('register') }}">Register</a></li>
-                                <li><a href="{{ url_for('login') }}">Log In</a></li>
-                            </ul>
-                        {% endif %}
-                    </div>
-                </div>
-            </nav>
-
-
+<!-- Homepage -->
             <main>
                 {% block main %}{% endblock %}
             </main>
 
-        </div>
-
-    </body>
-
+</body>
 </html>

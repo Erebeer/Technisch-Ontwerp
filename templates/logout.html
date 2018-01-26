@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block main %}
-    <h1>You have been succesfully logged out</h1>
-    <li><a href="{{ url_for('home') }}">Homepage</a></li>
+    <h1 style="text-align:center" class="hoofd">You have been succesfully logged out.</h1>
+    <img src="http://www.seeyousoon.tokyo/img/ogimage.png" class="image" width="820" height="380">
+    <p style="text-align:center">Click on "Home" to return to the homepage.</p>
+    <div style="text-align:center"><a href="{{ url_for('home') }}"><button class="button"><span>Home </span></button></a></div>
 {% endblock %}
