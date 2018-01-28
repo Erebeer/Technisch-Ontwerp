@@ -41,6 +41,7 @@ def index():
 @app.route("/leaderboards", methods=["GET", "POST"])
 @helpers.login_required
 def leaderboards():
+    trivia.order_leaderboard()
     return trivia.show_leaderboard()
 
 @app.route("/setup", methods=["GET", "POST"])
