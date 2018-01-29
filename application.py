@@ -37,10 +37,10 @@ def register():
 @helpers.login_required
 def index():
     if request.method == "POST":
+        # Selects difficulty, makes sure the right types of questions are generated
         difficulty = request.form.get("difficulty")
-        print("TESTESTTEST: ",str(difficulty))
         api = trivia.select_difficulty()
-        print(api)
+        # Creates and starts the game
         return trivia.create_game()
     else:
         return render_template("index.html")
@@ -49,11 +49,6 @@ def index():
 @helpers.login_required
 def leaderboards():
     return trivia.show_leaderboard()
-
-@app.route("/setup", methods=["GET", "POST"])
-@helpers.login_required
-def setup():
-    return trivia.create_game()
 
 @app.route("/question01", methods=["GET", "POST"])
 @helpers.login_required

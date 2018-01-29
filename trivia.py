@@ -1,3 +1,6 @@
+import urllib.request
+import json
+import html
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_session import Session
@@ -7,6 +10,34 @@ import helpers
 
 # The database where questions, users and scores are stored
 db = SQL("sqlite:///trivia.db")
+
+def generate():
+    # Reads the API, Creates list of questions and answers, generates a question with answer
+    # Open the API
+    api = select_difficulty()
+    print(api)
+    webpage = list(urllib.request.urlopen(api))
+
+    # Generates the questionset
+    temp = json.loads(webpage[0].decode("utf-8"))['results']
+
+    # Create lists of questions and correct answers
+    all_questions = []
+    correct_answers = []
+    number = [x for x in range(11)]
+    for x in temp:
+        all_questions.append(x['question'])
+    for x in temp:
+        correct_answers.append(x['correct_answer'])
+
+    # Combines both lists into a dict (key = question, value = correct answer)
+    temp1 = list(zip(all_questions, correct_answers))
+    questions = dict(list(zip(number, temp1)))
+
+    # Returns a random generated question with an answer
+    question = html.unescape(questions[0][0])
+    answer = html.unescape(questions[0][1])
+    return ([question, answer])
 
 def displayquestion(number):
     # Select question out of the database and return for display
@@ -104,7 +135,6 @@ def select_difficulty():
         api = "https://opentdb.com/api.php?amount=10&difficulty=hard"
     return api
 
-
 def create_game():
     # Makes sure all previously saved content has been deleted and resetted
     db.execute("DELETE FROM game")
@@ -113,7 +143,7 @@ def create_game():
 
     # Fills the temporary table with questions
     for x in range(1, 11):
-        question_and_answer = helpers.question()
+        question_and_answer = generate()
         question = question_and_answer[0]
         answer = question_and_answer[1]
         number = x
