@@ -187,8 +187,18 @@ def changepassword():
     return render_template("changepassword.html")
 
 @app.route ("/deleteaccount", methods=["GET", "POST"])
+@helpers.login_required
 def deleteaccount():
     return render_template("deleteaccount.html")
+
+@app.route ("/confirmdelete", methods=["GET", "POST"])
+@helpers.login_required
+def confirmdelete():
+    if request.method == "POST":
+        helpers.delete_account()
+        return redirect(url_for("home"))
+    else:
+        return render_template("confirmdelete.html")
 
 if __name__ == "__main__":
     app.run

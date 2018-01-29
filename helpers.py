@@ -88,3 +88,32 @@ def personalinfo():
     avarage_score = db.execute("SELECT avarage_score FROM leaderboards")
     return render_template("personalinfo.html")
 
+def delete_account():
+    # ensure username was submitted
+    if not request.form.get("username"):
+        return error("must provide username")
+
+    # ensure password was submitted
+    elif not request.form.get("password"):
+        return error("must provide password")
+
+    # query database for username
+    rows = db.execute("SELECT * FROM users WHERE username = :username", username=request.form.get("username"))
+
+    # ensure username exists and password is correct
+    if len(rows) != 1 or not pwd_context.verify(request.form.get("password"), rows[0]["hash"]):
+        return error("invalid username and/or password")
+
+    # Select username
+    usernametemp = db.execute("SELECT username FROM users WHERE id= :id", id=session["user_id"])
+    username = usernametemp[0]["username"]
+
+    # Deletes account from every database
+    db.execute("DELETE FROM users WHERE id=:id", id=session["user_id"])
+    db.execute("DELETE FROM leaderboards WHERE username=:username", username=username)
+
+     # logs the user out
+    session.clear()
+
+    return render_template("home.html")
+
