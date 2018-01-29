@@ -167,10 +167,6 @@ def logout():
     # Go back to the homepage
     return render_template("logout.html")
 
-@app.route("/testlayout", methods=["GET", "POST"])
-def testlayout():
-    return render_template("testlayout.html")
-
 @app.route("/contact", methods=["GET"])
 def contact():
     return render_template("contact.html")
@@ -180,20 +176,33 @@ def about():
     return render_template("about.html")
 
 @app.route("/settings", methods=["GET"])
+@helpers.login_required
 def settings():
     return render_template("settings.html")
 
 @app.route ("/personalinfo", methods=["GET"])
+@helpers.login_required
 def personalinfo():
-    return render_template("personalinfo.html")
+    return helpers.personalinfo()
 
 @app.route ("/changepassword", methods=["GET", "POST"])
+@helpers.login_required
 def changepassword():
     return render_template("changepassword.html")
 
 @app.route ("/deleteaccount", methods=["GET", "POST"])
+@helpers.login_required
 def deleteaccount():
     return render_template("deleteaccount.html")
+
+@app.route ("/confirmdelete", methods=["GET", "POST"])
+@helpers.login_required
+def confirmdelete():
+    return render_template("confirmdelete.html")
+
+@app.route ("/forgotpassword.html", methods=["GET", "POST"])
+def forgotpassword():
+    return render_template("forgotpassword.html")
 
 if __name__ == "__main__":
     app.run
