@@ -23,8 +23,9 @@ def error(message, topmessage="ERROR"):
     return render_template("error.html", top=topmessage, bottom=escape(message))
 
 def generate():
-    # Open the API
-    api =  "https://opentdb.com/api.php?amount=11"
+    # Open the API    api =  "https://opentdb.com/api.php?amount=11"
+    api = trivia.select_difficulty()
+    print(api)
     webpage = list(urllib.request.urlopen(api))
 
     # Generates the questionset

@@ -61,7 +61,7 @@ def processquestion(num):
             if num != 10:
                 template = "question0"+str(num + 1)+".html"
             else:
-                template = "results.html"
+                return redirect(url_for("results"))
             return render_template(template, score=score, question=question, answer=answer)
 
         # If the answer is wrong.
@@ -90,8 +90,20 @@ def displaygame(num):
     return render_template(template, question=question, answer = answer, score=score)
 
 def show_leaderboard():
-    leaderboards = db.execute("SELECT * from leaderboards")
+    leaderboards = db.execute("SELECT * from leaderboards ORDER BY avarage_score DESC")
     return render_template("leaderboards.html", leaderboard = leaderboards)
+
+def select_difficulty():
+    difficulty = str(request.form.get("difficulty"))
+    print(difficulty)
+    if difficulty == "novice":
+        api = "https://opentdb.com/api.php?amount=10&difficulty=easy"
+    elif difficulty == "medium":
+        api = "https://opentdb.com/api.php?amount=10&difficulty=medium"
+    else:
+        api = "https://opentdb.com/api.php?amount=10&difficulty=hard"
+    return api
+
 
 def create_game():
     # Makes sure all previously saved content has been deleted and resetted
@@ -123,9 +135,6 @@ def save_game():
     username = select_username()
     return db.execute("INSERT INTO allgames (id, score, username) VALUES(:id, :score, :username)", id=session["user_id"], score=score, username=username)
 
-def order_leaderboard():
-    return db.execute("SELECT * FROM leaderboards ORDER BY avarage_score")
-
 def update_leaderboard():
     username = select_username()
     score = select_score()
@@ -141,7 +150,7 @@ def update_leaderboard():
 
     # Updates the leaderboard
     db.execute("UPDATE leaderboards SET total_score = :newscore, total_games = :newgames, avarage_score= :newavarage WHERE username = :username", username=username, newscore=newscore, newgames=newgames, newavarage=newavarage)
-    # Sort leaderboard
-    order_leaderboard()
+
+    # Deletes questions, answers and scores
     helpers.deleteall()
     return render_template("results.html", score=score)
