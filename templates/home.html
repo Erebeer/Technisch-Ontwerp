@@ -2,25 +2,22 @@
 
 <title>Welcome to The most awesome Trivia Game!</title>
 
+
+<!-- Checks if the user is logged in, based on the outcome prints the play button or login/register button -->
 {% block main%}
 
-<div class="header-image">
-  <div class="header-text">
-    <h1 class="hoofd"><div class="zwart">Welcome!</div></h1>
-  </div>
-</div>
-
 {% if session.user_id %}
-<div style="text-align:center;">
+<div style ="text-align:center;">
+<h1 class="hoofd">Greetings!</h1>
 <p>Click on the button to play!</p>
 <a href="/index"><button class="button"><span>Play! </span></button></a>
 </div>
 
+
 {% elif not session.logged_in %}
-<div style="text-align:center">
-<h1 class="hoofd">Dit is de Homepage</h1>
-<p>Prototype Eric Louwers & Lars Bremmers</p>
-<p>Student IDs: 11853751 & 11861</p>
+<div style="text-align:center;">
+<h1 class="hoofd">Welcome to Trivia!</h1>
+<p>Please login. If you haven't gotten an account yet, please register.</p>
 </div>
 
 <div style="text-align:center;">
