@@ -1,0 +1,24 @@
+<!doctype html>
+{% extends "layout.html" %}
+
+{% block main%}
+<h1 class="hoofd">Contact</h1>
+
+<form action="{{ url_for('contact') }}" method="post" style="text-align:center">
+        <fieldset>
+            <div class="form-group">
+                <input class="form-control" name="email" placeholder="E-mail address" type="text"/>
+            </div>
+             <div class="form-group">
+                <input class="form-control" name="subject" placeholder="Subject" type="text"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="explanation" placeholder="What would you like to ask?" type="text"/>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" type="submit">Send</button>
+            </div>
+        </fieldset>
+    </form>
+
+{% endblock %}
