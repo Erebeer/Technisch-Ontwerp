@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block main %}
-<h1>Question: {{ question }}</h1>
+<h1 class="hoofd">Question: {{ question }}</h1>
 <h1>Answer: {{ answer }}</h1>
 <h1>Score: {{ score }}</h1>
     <form action="{{url_for('question08') }}" method="POST">
