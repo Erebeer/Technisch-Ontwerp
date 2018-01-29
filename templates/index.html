@@ -3,12 +3,14 @@
 
 {% block main%}
 
-<div class="midden">
+<div style="text-align:center;">
 <h1 class="hoofd">Greetings {{session.username}} !</h1>
-<h2>Choose the settings and Play!</h1>
+    <p>The only thing you have to do, is select the difficulty. Based on your selected difficulty, we'll provide questions.</p>
 
-    <fieldset>
-        <h2>Choose Difficulty</h2>
+<h2 class="hoofd">Game rules</h2>
+    <p>The rules are very simple. You'll be given 10 questions. If you answer a question correctly, you'll gain 100 points. However, if you answer incorrectly, you'll lose 50 points.</p>
+
+<h2 class="hoofd">Choose Difficulty</h2>
 
         <form action="{{ url_for('question01') }}" method="post">
         <fieldset>
@@ -22,7 +24,6 @@
         </fieldset>
 
         <a href="{{ url_for('setup') }}"><h2>Setup</h2></a>
-    </fieldset>
 </div>
 
 {% endblock %}

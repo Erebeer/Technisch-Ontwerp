@@ -173,5 +173,21 @@ def contact():
 def about():
     return render_template("about.html")
 
+@app.route("/settings", methods=["GET"])
+def settings():
+    return render_template("settings.html")
+
+@app.route ("/personalinfo", methods=["GET"])
+def personalinfo():
+    return render_template("personalinfo.html")
+
+@app.route ("/changepassword", methods=["GET", "POST"])
+def changepassword():
+    return render_template("changepassword.html")
+
+@app.route ("/deleteaccount", methods=["GET", "POST"])
+def deleteaccount():
+    return render_template("deleteaccount.html")
+
 if __name__ == "__main__":
     app.run
