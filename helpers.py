@@ -46,14 +46,17 @@ def generate():
     return(questionset)
 
 def question():
+    # Returns a random generated question with an answer
     questions = generate()
     question = html.unescape(questions[0][0])
     answer = html.unescape(questions[0][1])
     return ([question, answer])
 
 def deleteall():
-    db.execute("DROP TABLE game")
-    db.execute("DROP TABLE score")
+    # Deletes rows from the table made for the game
+    db.execute("DELETE FROM game")
+    db.execute("DELETE FROM score")
+    db.execute("INSERT INTO score VALUES (:score)", score = 0)
 
 def login_required(f):
     @wraps(f)
@@ -109,21 +112,16 @@ def login():
     # ensure username was submitted
         if not request.form.get("username"):
             return error("must provide username")
-
         # ensure password was submitted
         elif not request.form.get("password"):
             return error("must provide password")
-
         # query database for username
         rows = db.execute("SELECT * FROM users WHERE username = :username", username=request.form.get("username"))
-
         # ensure username exists and password is correct
         if len(rows) != 1 or not pwd_context.verify(request.form.get("password"), rows[0]["hash"]):
             return error("invalid username and/or password")
-
         # remember which user has logged in
         session["user_id"] = rows[0]["id"]
-
         # redirect user to home page
         return redirect(url_for("index"))
 

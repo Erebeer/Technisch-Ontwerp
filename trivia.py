@@ -4,9 +4,8 @@ from flask_session import Session
 from passlib.apps import custom_app_context as pwd_context
 from tempfile import mkdtemp
 import helpers
-import trivia
 
-
+# The database where questions, users and scores are stored
 db = SQL("sqlite:///trivia.db")
 
 def displayquestion(number):
@@ -16,7 +15,7 @@ def displayquestion(number):
     return(question)
 
 def displayanswer(number):
-    # Select question out of the database and return for display
+    # Select answer out of the database and return for display
     answertemp = db.execute("SELECT answer FROM game WHERE number=:number", number=number)
     answer = answertemp[0]['answer']
     return(answer)
@@ -43,10 +42,14 @@ def updatescore(number):
         return score
 
 def processquestion(num):
+    # Displays question on the page
         question = displayquestion(num)
         answer = displayanswer(num)
         givenanswer = str(request.form.to_dict('answer')['answer'])
+
+        # If the answer is right
         if givenanswer == answer:
+            # If it is not the last question, display the next question. Else, display results.
             if num != 10:
                 question = displayquestion(num+1)
                 answer = displayanswer(num+1)
@@ -60,7 +63,10 @@ def processquestion(num):
             else:
                 template = "results.html"
             return render_template(template, score=score, question=question, answer=answer)
+
+        # If the answer is wrong.
         if givenanswer != answer:
+            # If it is not the last question, display the next question. Else, display results.
             if num != 10:
                 question = displayquestion(num+1)
                 answer = displayanswer(num+1)
@@ -76,6 +82,7 @@ def processquestion(num):
             return render_template(template, score=score, question=question, answer=answer)
 
 def displaygame(num):
+    # Gets the question, answer and score en puts it on the webpage
     question = displayquestion(num)
     answer = displayanswer(num)
     score = 0
@@ -87,9 +94,12 @@ def show_leaderboard():
     return render_template("leaderboards.html", leaderboard = leaderboards)
 
 def create_game():
-    db.execute("CREATE TABLE game ( number INTEGER, question TEXT, answer TEXT)")
-    db.execute("CREATE TABLE score (score INTEGER)")
+    # Makes sure all previously saved content has been deleted and resetted
+    db.execute("DELETE FROM game")
+    db.execute("DELETE FROM score")
     db.execute("INSERT INTO score (score) VALUES (:score)", score=0)
+
+    # Fills the temporary table with questions
     for x in range(1, 11):
         question_and_answer = helpers.question()
         question = question_and_answer[0]
@@ -113,16 +123,25 @@ def save_game():
     username = select_username()
     return db.execute("INSERT INTO allgames (id, score, username) VALUES(:id, :score, :username)", id=session["user_id"], score=score, username=username)
 
+def order_leaderboard():
+    return db.execute("SELECT * FROM leaderboards ORDER BY avarage_score")
+
 def update_leaderboard():
     username = select_username()
     score = select_score()
+
+    # Updates the score
     oldscoretemp = db.execute("SELECT total_score FROM leaderboards WHERE username = :username", username=username)
     oldscore = oldscoretemp[0]["total_score"]
     oldgamestemp = db.execute("SELECT total_games FROM leaderboards WHERE username = :username", username=username)
     oldgames = oldgamestemp[0]["total_games"]
     newscore = oldscore + score
     newgames = oldgames + 1
-    newavarage = newscore / newgames
+    newavarage = int(newscore / newgames)
+
+    # Updates the leaderboard
     db.execute("UPDATE leaderboards SET total_score = :newscore, total_games = :newgames, avarage_score= :newavarage WHERE username = :username", username=username, newscore=newscore, newgames=newgames, newavarage=newavarage)
+    # Sort leaderboard
+    order_leaderboard()
     helpers.deleteall()
     return render_template("results.html", score=score)
