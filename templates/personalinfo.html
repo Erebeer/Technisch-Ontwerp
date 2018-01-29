@@ -2,5 +2,21 @@
 {% extends "layout.html" %}
 
 {% block main%}
+<h1 class="hoofd">Personal information</h1>
+<p>On this page you can see your personal information. This contains the number of games you've played, your total score and your average score.</p>
+
+{% for row in leaderboard %}
+<h3 class="hoofd">Username</h3>
+<p>{{ row.username }}</p>
+
+<h3 class="hoofd">Number of games played</h3>
+<p>{{ row.total_games }}</p>
+
+<h3 class="hoofd">Total score</h3>
+<p>{{ row.total_score }}</p>
+
+<h3 class="hoofd">Average score</h3>
+<p>{{ row.avarage_score }}</p>
+{% endfor %}
 
 {% endblock %}

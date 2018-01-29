@@ -126,3 +126,10 @@ def login():
         # redirect user to home page
         return redirect(url_for("home"))
 
+def personalinfo():
+    username = db.execute("SELECT username FROM leaderboards")
+    total_games = db.execute("SELECT total_games FROM leaderboards")
+    total_score = db.execute("SELECT total_score FROM leaderboards")
+    avarage_score = db.execute("SELECT avarage_score FROM leaderboards")
+    return render_template("personalinfo.html")
+
