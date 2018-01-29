@@ -26,11 +26,12 @@
 {% if session.user_id %}
 <ul>
     <li><a href="{{ url_for('home') }}"><img src="https://upload.wikimedia.org/wikipedia/en/archive/2/27/20100328194043%21Trivia.png" width="70" height="14"></img></a></li>
-    <li><a href="{{ url_for('leaderboards') }}">Leaderboards</a></li>
     <li><a href="{{ url_for('index') }}">Play</a></li>
-    <li style="float:right"><a class= "logout" href="/logout">Hi! {{session['username']}}</a></li>
+    <li><a href="{{ url_for('leaderboards') }}">Leaderboards</a></li>
     <li><a href="/contact">Contact</a></li>
     <li><a href="/about">About</a></li>
+    <li style="float:right"><a class= "logout" href="/logout">Logout</a></li>
+    <li style="float:right"><a href="/settings">Settings</a></li>
 </ul>
 {% elif not session.logged_in %}
 <ul>
@@ -41,10 +42,13 @@
 </ul>
  {% endif %}
 
-<!-- Homepage -->
+<!-- Main block -->
             <main>
                 {% block main %}{% endblock %}
             </main>
 
+<div class="footer">
+  <p>Eric Louwers & Lars Bremmers | Student IDs: 11853751 & 11861738</p>
+</div>
 </body>
 </html>

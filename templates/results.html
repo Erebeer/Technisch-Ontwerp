@@ -6,6 +6,11 @@
 
 {% block main %}
 <h1 class="hoofd">The results are in!</h1>
-<h1 class="mid">You've got a total score of: {{ score }} points!</h1>
-<p>Check the <a href="/leaderboards">leaderboards</a> to see if you've got a highscore.</p>
+<h2 style="text-align:center;">You've got a total score of: {{ score }} points!</h1>
+<p>Check the leaderboards to see if you've gotten a highscore. Or return to home.</p>
+
+<div style="text-align:center;">
+<a href="/leaderboards"><button class="button"><span>Score </span></button></a>
+<a href="/home"><button class="button"><span>Home </span></button></a>
+</div>
 {% endblock %}
