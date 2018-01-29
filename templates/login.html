@@ -10,6 +10,7 @@
  <h1 class="hoofd">You're already logged in!</h1>
  <p>Click <a href="{{ url_for('index') }}">here</a> to go the homepage.</p>
 </div>
+
 {% elif not session.logged_in %}
  <h1 class="hoofd">Login test</h1>
  <p class="midden">Fill in your username and password to login. If you haven't registered yet, click <a href="/register">here</a> to register.</p>

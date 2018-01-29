@@ -6,11 +6,17 @@
 
 <div class="header-image">
   <div class="header-text">
-    <h1 class="hoofd"><div class="zwart">Welcome "USER"!</div></h1>
+    <h1 class="hoofd"><div class="zwart">Welcome!</div></h1>
   </div>
 </div>
 
+{% if session.user_id %}
+<div style="text-align:center;">
+<p>Click on the button to play!</p>
+<a href="/index"><button class="button"><span>Play! </span></button></a>
+</div>
 
+{% elif not session.logged_in %}
 <div style="text-align:center">
 <h1 class="hoofd">Dit is de Homepage</h1>
 <p>Prototype Eric Louwers & Lars Bremmers</p>
@@ -21,5 +27,5 @@
 <a href="/login"><button class="button"><span>Login </span></button></a>
 <a href="/register"><button class="button"><span>Register </span></button></a>
 </div>
-
+{% endif %}
 {% endblock %}

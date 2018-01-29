@@ -21,6 +21,8 @@
 </head>
 
 <body>
+<!-- Checks either if the user is logged in or not -->
+<!-- Based on the outcome, prints a certain menu -->
 {% if session.user_id %}
 <ul>
     <li><a href="{{ url_for('home') }}"><img src="https://upload.wikimedia.org/wikipedia/en/archive/2/27/20100328194043%21Trivia.png" width="70" height="14"></img></a></li>
