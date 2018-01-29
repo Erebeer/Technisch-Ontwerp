@@ -118,7 +118,7 @@ def create_game():
         answer = question_and_answer[1]
         number = x
         db.execute("INSERT INTO game (number, question, answer) VALUES(:number, :question, :answer)", number=number, question=question, answer=answer )
-    return render_template("setup.html")
+    return redirect(url_for("question01"))
 
 def select_username():
     usernametemp = db.execute("SELECT username FROM users WHERE id=:id", id=session["user_id"])
