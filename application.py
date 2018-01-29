@@ -36,12 +36,18 @@ def register():
 @app.route("/index", methods=["GET", "POST"])
 @helpers.login_required
 def index():
-    return render_template("index.html")
+    if request.method == "POST":
+        difficulty = request.form.get("difficulty")
+        print("TESTESTTEST: ",str(difficulty))
+        api = trivia.select_difficulty()
+        print(api)
+        return trivia.create_game()
+    else:
+        return render_template("index.html")
 
 @app.route("/leaderboards", methods=["GET", "POST"])
 @helpers.login_required
 def leaderboards():
-    trivia.order_leaderboard()
     return trivia.show_leaderboard()
 
 @app.route("/setup", methods=["GET", "POST"])
