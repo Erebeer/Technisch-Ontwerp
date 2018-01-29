@@ -1,0 +1,16 @@
+<!doctype html>
+{% extends "layout.html" %}
+
+{% block main%}
+<h1 class="hoofd">Confirm deleting your account</h1>
+<p>We're really sad to see you go! But that's life and there's nothing we can do about it. Please fill in your password to identify yourself.</p>
+
+<form action="{{ url_for('confirmdelete') }}" method="post" style="text-align:center;">
+    <fieldset class="midden">
+            <input class="form-control" name="password" placeholder="Password" type="password"/>
+        </div>
+            <button class="btn btn-default" type="submit">Delete</button>
+        </div>
+    </fieldset>
+</form>
+{% endblock %}
