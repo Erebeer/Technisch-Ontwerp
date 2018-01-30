@@ -82,10 +82,19 @@ def login():
         return redirect(url_for("home"))
 
 def personalinfo():
+    # Select username
     username = db.execute("SELECT username FROM leaderboards")
+
+    # Select total games
     total_games = db.execute("SELECT total_games FROM leaderboards")
+
+    # Select total score
     total_score = db.execute("SELECT total_score FROM leaderboards")
+
+    # Select avarage score
     avarage_score = db.execute("SELECT avarage_score FROM leaderboards")
+
+    # Retun personal information with all the attributes
     return render_template("personalinfo.html")
 
 def delete_account():
@@ -144,4 +153,9 @@ def change_password():
     db.execute("UPDATE users SET hash = :hash WHERE id=:id", hash=pwd_context.hash(request.form.get("newpassword")), id=session["user_id"])
 
     # Goes to homepage
-    return redirect(url_for("home"))
+    return redirect
+
+def forgotpassword():
+    # Makes sure something has been filled in
+    if not request.form.get("email"):
+        return error("Please fill in an email adress")

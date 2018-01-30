@@ -1,0 +1,21 @@
+<!doctype html>
+{% extends "layout.html" %}
+
+
+{% block main%}
+<h1 class="hoofd">Answers</h1>
+<p>Here you can find the answers of your game!</p>
+    <table id="leaderboards" style="width:100%" border = 1>
+      <tr>
+        <th>Number</th>
+        <th>Question</th>
+        <th>Answer</th>
+      </tr>
+    {% for row in game %}
+      <tr>
+        <td>{{ row.number }}</td>
+        <td>{{ row.question }}</td>
+        <td>{{ row.answer }}</td>
+      </tr>
+{% endfor %}
+{% endblock %}

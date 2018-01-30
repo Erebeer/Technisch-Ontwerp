@@ -13,6 +13,7 @@ db = SQL("sqlite:///trivia.db")
 
 def generate():
     # Reads the API, Creates list of questions and answers, generates a question with answer
+
     # Open the API
     api = select_difficulty()
     print(api)
@@ -34,7 +35,7 @@ def generate():
     temp1 = list(zip(all_questions, correct_answers))
     questions = dict(list(zip(number, temp1)))
 
-    # Returns a random generated question with an answer
+    # Returns a random generated question with an answer, not sensitive to capitals
     question = html.unescape(questions[0][0])
     answer = html.unescape(questions[0][1]).lower()
     return ([question, answer])
@@ -56,77 +57,108 @@ def updatescore(number):
     question = displayquestion(number)
     answer = displayanswer(number)
     givenanswer = str(request.form.to_dict('answer')['answer'])
+
     # If the answer is correct
     if givenanswer == answer:
+
         # Updates score in current game
         db.execute("UPDATE score SET score = score + :mutation", mutation = 100)
         scoretemp = db.execute("SELECT score FROM score")
+
         # Sets variable
         score = scoretemp[0]["score"]
         return score
     else:
+
         # Updates score in current game
         db.execute("UPDATE score SET score = score + :mutation", mutation = -50)
         scoretemp = db.execute("SELECT score FROM score")
+
         # Sets variable
         score = scoretemp[0]["score"]
+
         return score
 
 def processquestion(num):
+
     # Displays question on the page
-        question = displayquestion(num)
-        answer = displayanswer(num)
-        givenanswer = str(request.form.to_dict('answer')['answer'])
-
-        # If the answer is right
-        if givenanswer == answer:
-            # If it is not the last question, display the next question. Else, display results.
-            if num != 10:
-                question = displayquestion(num+1)
-                answer = displayanswer(num+1)
-                score = updatescore(num)
-            else:
-                question = displayquestion(num)
-                answer = displayanswer(num)
-                score = updatescore(num)
-            if num != 10:
-                template = "question0"+str(num + 1)+".html"
-            else:
-                return redirect(url_for("results"))
-            return render_template(template, score=score, question=question, answer=answer)
-
-        # If the answer is wrong.
-        if givenanswer != answer:
-            # If it is not the last question, display the next question. Else, display results.
-            if num != 10:
-                question = displayquestion(num+1)
-                answer = displayanswer(num+1)
-                score = updatescore(num)
-            else:
-                question = displayquestion(num)
-                answer = displayanswer(num)
-                score = updatescore(num)
-            if num != 10:
-                template = "question0"+str(num + 1)+".html"
-            else:
-                template = "results.html"
-            return render_template(template, score=score, question=question, answer=answer)
-
-def displaygame(num):
-    # Gets the question, answer and score en puts it on the webpage
     question = displayquestion(num)
     answer = displayanswer(num)
+    givenanswer = str(request.form.to_dict('answer')['answer'])
+
+    # If the answer is right
+    if givenanswer == answer:
+
+        # If it is not the last question, display the next question. Else, display results.
+        if num != 10:
+            question = displayquestion(num+1)
+            answer = displayanswer(num+1)
+            score = updatescore(num)
+
+        else:
+            question = displayquestion(num)
+            answer = displayanswer(num)
+            score = updatescore(num)
+
+        if num != 10:
+            template = "question0"+str(num + 1)+".html"
+
+        else:
+            return redirect(url_for("results"))
+
+        # Return the next question
+        return render_template(template, score=score, question=question, answer=answer)
+
+    # If the answer is wrong.
+    if givenanswer != answer:
+
+        # If it is not the last question, display the next question. Else, display results.
+        if num != 10:
+            question = displayquestion(num+1)
+            answer = displayanswer(num+1)
+            score = updatescore(num)
+
+        else:
+            question = displayquestion(num)
+            answer = displayanswer(num)
+            score = updatescore(num)
+
+        if num != 10:
+            template = "question0"+str(num + 1)+".html"
+
+        else:
+            template = "results.html"
+
+        return render_template(template, score=score, question=question, answer=answer)
+
+def displaygame(num):
+    # Sets the question
+    question = displayquestion(num)
+
+    # Sets the answer
+    answer = displayanswer(num)
+
+    # Sets the score
     score = 0
+
+    # Determines the right questiontemplate
     template = "question0"+str(num)+".html"
+
     return render_template(template, question=question, answer = answer, score=score)
 
 def show_leaderboard():
+    # Select the leaderboard table
     leaderboards = db.execute("SELECT * from leaderboards ORDER BY avarage_score DESC")
+
+    # Shows the leaderboard
     return render_template("leaderboards.html", leaderboard = leaderboards)
 
 def select_difficulty():
+
+    # Determines the chosen difficulty
     difficulty = str(request.form.get("difficulty"))
-    print(difficulty)
+
+    # Determines the type of questions to be generated
     if difficulty == "novice":
         api = "https://opentdb.com/api.php?amount=10&difficulty=easy"
     elif difficulty == "medium":
@@ -151,21 +183,25 @@ def create_game():
     return redirect(url_for("question01"))
 
 def select_username():
+    # Selects and returns the username
     usernametemp = db.execute("SELECT username FROM users WHERE id=:id", id=session["user_id"])
     username = usernametemp[0]['username']
     return username
 
 def select_score():
+    # Selects and returns the score
     scoretemp = db.execute("SELECT score FROM score")
     score = scoretemp[0]["score"]
     return score
 
 def save_game():
+    # Saves the game and adds it to the database
     score = select_score()
     username = select_username()
     return db.execute("INSERT INTO allgames (id, score, username) VALUES(:id, :score, :username)", id=session["user_id"], score=score, username=username)
 
 def update_leaderboard():
+    # Selects the username and score
     username = select_username()
     score = select_score()
 
@@ -181,6 +217,5 @@ def update_leaderboard():
     # Updates the leaderboard
     db.execute("UPDATE leaderboards SET total_score = :newscore, total_games = :newgames, avarage_score= :newavarage WHERE username = :username", username=username, newscore=newscore, newgames=newgames, newavarage=newavarage)
 
-    # Deletes questions, answers and scores
-    helpers.deleteall()
+    # Return the score with the results
     return render_template("results.html", score=score)

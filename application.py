@@ -55,6 +55,7 @@ def leaderboards():
 def question01():
     num = 1
     if request.method == "POST":
+        # Shows and process all of the questions
         return trivia.processquestion(num)
     else:
         return trivia.displaygame(num)
@@ -154,6 +155,12 @@ def results():
     #Update leaderboard and show the result
     return trivia.update_leaderboard()
 
+@app.route("/answers", methods=["GET"])
+@helpers.login_required
+def answers():
+    answers = db.execute("SELECT * from game")
+    return render_template("answers.html", game=answers)
+
 @app.route("/logout", methods=["GET", "POST"])
 @helpers.login_required
 def logout():
@@ -204,9 +211,11 @@ def changepassword():
         return render_template("changepassword.html")
 
 @app.route("/forgotpassword", methods =["GET", "POST"])
-@helpers.login_required
 def forgotpassword():
-    return render_template("forgotpassword.html")
+    if method == "POST":
+        return helpers.forgotpassword()
+    else:
+        return render_template("forgotpassword.html")
 
 if __name__ == "__main__":
     app.run
