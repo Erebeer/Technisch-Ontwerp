@@ -36,7 +36,7 @@ def generate():
 
     # Returns a random generated question with an answer
     question = html.unescape(questions[0][0])
-    answer = html.unescape(questions[0][1])
+    answer = html.unescape(questions[0][1]).lower()
     return ([question, answer])
 
 def displayquestion(number):
