@@ -117,3 +117,31 @@ def delete_account():
 
     return render_template("home.html")
 
+def change_password():
+    # ensure password was submitted
+    if not request.form.get("oldpassword"):
+        return error("Must provide password")
+    # ensure new password was submitted
+    if not request.form.get("newpassword"):
+        return error("Please enter new password")
+    # ensure varification was submitted
+    if not request.form.get("verificationpassword"):
+        return error("Please enter a varification")
+
+    # Select old password
+    old = db.execute("SELECT hash FROM users WHERE id=:id", id=session["user_id"])
+    print("hash: ",old[0]["hash"])
+
+    # Ensure password is correct
+    if not pwd_context.verify(request.form.get("oldpassword"), old[0]["hash"]):
+        return error("Incorrect password")
+
+    # Ensure new password matches the verification
+    elif request.form.get("newpassword") != request.form.get("verificationpassword"):
+        return error("New password doen't match varification")
+
+    # Change password
+    db.execute("UPDATE users SET hash = :hash WHERE id=:id", hash=pwd_context.hash(request.form.get("newpassword")), id=session["user_id"])
+
+    # Goes to homepage
+    return redirect(url_for("home"))

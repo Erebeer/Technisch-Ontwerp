@@ -180,11 +180,6 @@ def settings():
 def personalinfo():
     return helpers.personalinfo()
 
-@app.route ("/changepassword", methods=["GET", "POST"])
-@helpers.login_required
-def changepassword():
-    return render_template("changepassword.html")
-
 @app.route ("/deleteaccount", methods=["GET", "POST"])
 @helpers.login_required
 def deleteaccount():
@@ -200,7 +195,16 @@ def confirmdelete():
         return render_template("confirmdelete.html")
     return render_template("confirmdelete.html")
 
-@app.route ("/forgotpassword.html", methods=["GET", "POST"])
+@app.route ("/changepassword", methods=["GET", "POST"])
+@helpers.login_required
+def changepassword():
+    if request.method == "POST":
+        return helpers.change_password()
+    else:
+        return render_template("changepassword.html")
+
+@app.route("/forgotpassword", methods =["GET", "POST"])
+@helpers.login_required
 def forgotpassword():
     return render_template("forgotpassword.html")
 
