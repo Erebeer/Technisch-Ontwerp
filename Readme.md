@@ -83,3 +83,7 @@ De file application.py is het bestand waarin er door de website wordt genavigeer
 # Taakverdeling
 
 Omdat wij met zijn tweeën aan de website hebben gewerkt, hebben we het grootste gedeelte samen gedaan. Wel heeft Lars iets meer de lay-out van de website op zich genomen en Eric het programmeren van de functies.
+
+# Screenshot Applicatie
+
+[Imgur](https://i.imgur.com/jCZj67s.png)
