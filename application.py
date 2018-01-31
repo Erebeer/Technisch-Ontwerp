@@ -210,12 +210,9 @@ def changepassword():
     else:
         return render_template("changepassword.html")
 
-@app.route("/forgotpassword", methods =["GET", "POST"])
-def forgotpassword():
-    if method == "POST":
-        return helpers.forgotpassword()
-    else:
-        return render_template("forgotpassword.html")
+@app.route("/quit", methods = ["GET"])
+def quit():
+    return render_template("quit.html")
 
 if __name__ == "__main__":
     app.run
