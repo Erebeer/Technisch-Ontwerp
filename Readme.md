@@ -86,4 +86,4 @@ Omdat wij met zijn tweeën aan de website hebben gewerkt, hebben we het grootste
 
 # Screenshot Applicatie
 
-[Imgur](https://i.imgur.com/jCZj67s.png)
+[!Imgur](https://i.imgur.com/jCZj67s.png)
