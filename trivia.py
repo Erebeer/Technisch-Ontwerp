@@ -179,7 +179,8 @@ def create_game():
         question = question_and_answer[0]
         answer = question_and_answer[1]
         number = x
-        db.execute("INSERT INTO game (number, question, answer) VALUES(:number, :question, :answer)", number=number, question=question, answer=answer )
+        db.execute("INSERT INTO game (number, question, answer) VALUES(:number, :question, :answer)",
+                                        number=number, question=question, answer=answer )
     return redirect(url_for("question01"))
 
 def select_username():
@@ -198,7 +199,8 @@ def save_game():
     # Saves the game and adds it to the database
     score = select_score()
     username = select_username()
-    return db.execute("INSERT INTO allgames (id, score, username) VALUES(:id, :score, :username)", id=session["user_id"], score=score, username=username)
+    return db.execute("INSERT INTO allgames (id, score, username) VALUES(:id, :score, :username)",
+                        id=session["user_id"], score=score, username=username)
 
 def update_leaderboard():
     # Selects the username and score
@@ -215,7 +217,8 @@ def update_leaderboard():
     newavarage = int(newscore / newgames)
 
     # Updates the leaderboard
-    db.execute("UPDATE leaderboards SET total_score = :newscore, total_games = :newgames, avarage_score= :newavarage WHERE username = :username", username=username, newscore=newscore, newgames=newgames, newavarage=newavarage)
+    db.execute("UPDATE leaderboards SET total_score = :newscore, total_games = :newgames, avarage_score= :newavarage WHERE username = :username",
+                                                        username=username, newscore=newscore, newgames=newgames, newavarage=newavarage)
 
     # Return the score with the results
     return render_template("results.html", score=score)

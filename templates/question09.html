@@ -7,7 +7,6 @@
 {% block main %}
 <div style="text-align:center;">
     <h1 class="hoofd">Question: {{ question }}</h1>
-    <h1>Answer: {{ answer }}</h1>
     <h1>Score: {{ score }}</h1>
         <form action="{{url_for('question09') }}" method="POST">
             <fieldset>
@@ -15,7 +14,7 @@
                     <input autocomplete="off" autofocus class="form-control" name="answer" placeholder="Answer" type="text"/>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-default" type="submit">Check</button>
+                    <button class="btn btn-default" type="submit">Next Question</button>
                 </div>
             </fieldset>
         </form>
