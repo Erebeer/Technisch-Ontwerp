@@ -45,7 +45,8 @@ def register():
     hash = pwd_context.hash(request.form.get("password"))
 
     # Saves username to the database
-    result = db.execute("INSERT INTO users (username, hash) VALUES(:username, :hash)",username=request.form.get("username"), hash = hash)
+    result = db.execute("INSERT INTO users (username, hash) VALUES(:username, :hash)",
+                        username=request.form.get("username"), hash = hash)
     if not result:
        return helpers.error("Just Error")
 
@@ -55,7 +56,8 @@ def register():
 
     usernametemp = db.execute("SELECT username FROM users WHERE id= :id", id=session["user_id"])
     username = usernametemp[0]["username"]
-    db.execute("INSERT INTO leaderboards (username, total_games, total_score, avarage_score) VALUES (:username, :total_games, :total_score, :avarage_score)", username=username, total_games=0, total_score=0, avarage_score=0)
+    db.execute("INSERT INTO leaderboards (username, total_games, total_score, avarage_score) VALUES (:username, :total_games, :total_score, :avarage_score)",
+                username=username, total_games=0, total_score=0, avarage_score=0)
 
     # Goes to homepage
     return redirect(url_for("index"))
@@ -127,12 +129,15 @@ def delete_account():
     return render_template("home.html")
 
 def change_password():
+
     # ensure password was submitted
     if not request.form.get("oldpassword"):
         return error("Must provide password")
+
     # ensure new password was submitted
     if not request.form.get("newpassword"):
         return error("Please enter new password")
+
     # ensure varification was submitted
     if not request.form.get("verificationpassword"):
         return error("Please enter a varification")
@@ -154,8 +159,3 @@ def change_password():
 
     # Goes to homepage
     return redirect
-
-def forgotpassword():
-    # Makes sure something has been filled in
-    if not request.form.get("email"):
-        return error("Please fill in an email adress")

@@ -1,0 +1,9 @@
+{% extends "layout.html"%}
+
+{% block main %}
+<h1 class="hoofd">You Quit the game</h1>
+<h2 style="text-align:center;">Please return to the home page</h1>
+<div style="text-align:center;">
+    <a href="{{ url_for('home') }}"><button class="button"><span>Home </span></button></a>
+</div>
+{% endblock %}
