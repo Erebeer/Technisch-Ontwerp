@@ -140,6 +140,8 @@ body, html {
 
 p {
     text-align:center;
+    padding-right: 160px;
+    padding-left: 160px;
 }
 
 .footer {
